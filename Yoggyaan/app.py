@@ -5,7 +5,7 @@ import random
 from datetime import datetime, date, timedelta
 from flask import Flask, render_template, request, session, redirect, url_for, jsonify, g, flash, send_from_directory
 from werkzeug.security import generate_password_hash, check_password_hash
-import Yoggyaan.db_compat as db_compat
+import db_compat
 import psycopg2
 
 app = Flask(__name__)
