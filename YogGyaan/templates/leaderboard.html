@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Leaderboard</title>
+  <link rel="stylesheet" href="/static/css/style.css?v=2" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    .top3-pinned {
+      position: sticky;
+      top: calc(var(--topbar-height, 68px) + 8px);
+      z-index: 40;
+      background: rgba(6, 10, 16, .92);
+      backdrop-filter: blur(14px);
+      padding: .75rem 0 1rem;
+      margin: 0 0 .5rem
+    }
+
+    .top3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin: .5rem 0 0
+    }
+
+    .podium,
+    .rank-row {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px
+    }
+
+    .podium {
+      padding: 1.2rem;
+      text-align: center;
+      transition: .3s
+    }
+
+    .podium:hover,
+    .rank-row:hover {
+      transform: translateY(-4px)
+    }
+
+    .rank-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      margin-bottom: .8rem;
+      transition: box-shadow .3s ease, background .3s ease;
+      scroll-margin-top: calc(var(--topbar-height, 68px) + 90px)
+    }
+
+    .me {
+      box-shadow: 0 0 0 2px rgba(212, 175, 55, .4)
+    }
+
+    .me-flash {
+      animation: meFlash 1.6s ease
+    }
+
+    @keyframes meFlash {
+      0% {
+        box-shadow: 0 0 0 2px rgba(212, 175, 55, .4);
+        background: rgba(212, 175, 55, .18)
+      }
+
+      100% {
+        box-shadow: 0 0 0 2px rgba(212, 175, 55, .4);
+        background: var(--surface)
+      }
+    }
+
+    .medal {
+      font-size: 1.8rem
+    }
+
+    .progress {
+      height: 8px;
+      background: #1f2937;
+      border-radius: 999px;
+      overflow: hidden
+    }
+
+    .fill {
+      height: 100%;
+      background: linear-gradient(90deg, #d4af37, #5fb878)
+    }
+
+    .leaderboard-list-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: .25rem 0 .5rem;
+      flex-wrap: wrap;
+      gap: .5rem
+    }
+
+    .my-rank-btn {
+      border: 1px solid rgba(212, 175, 55, .5);
+      background: rgba(212, 175, 55, .12);
+      color: var(--gold, #d4af37);
+      border-radius: 999px;
+      padding: .4rem .9rem;
+      font-size: .78rem;
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    .my-rank-btn:hover {
+      background: rgba(212, 175, 55, .22)
+    }
+
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: .4rem;
+      margin: 1.25rem 0 2rem
+    }
+
+    .page-btn {
+      min-width: 34px;
+      height: 34px;
+      padding: 0 .5rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: .82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .15s
+    }
+
+    .page-btn:hover:not(.disabled) {
+      border-color: rgba(74, 222, 128, .5);
+      transform: translateY(-1px)
+    }
+
+    .page-btn.active {
+      background: linear-gradient(135deg, #4ade80, #22c55e);
+      color: #04130b;
+      border-color: transparent
+    }
+
+    .page-btn.disabled {
+      opacity: .4;
+      cursor: not-allowed
+    }
+
+    .page-ellipsis {
+      color: var(--text-muted);
+      padding: 0 .25rem;
+      font-weight: 700
+    }
+  </style>
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="theme-color" content="#1a473f">
+  <link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+  <script src="/static/js/pwa.js" defer></script>
+  <script src="/static/js/topbar-dropdown.js" defer></script>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="navbar-brand"><i class="bi bi-flower2"></i><span class="nav-label">YogGyaan</span></div>
+      <ul class="navbar-nav">
+        <li><a href="/dashboard"><i class="bi bi-house-door"></i><span class="nav-label">Dashboard</span></a></li>
+        <li><a href="/yoga-library"><i class="bi bi-person-arms-up"></i><span class="nav-label">Yoga Library</span></a></li>
+        <li><a href="/world-map"><i class="bi bi-map"></i><span class="nav-label">World Map</span></a></li>
+        <li><a href="/leaderboard"><i class="bi bi-trophy"></i><span class="nav-label">Leaderboard</span></a></li>
+        <li><a href="/health-assessment"><i class="bi bi-heart-pulse"></i><span class="nav-label">Health Assessment</span></a></li>
+        <li><a href="/wellness-reassessment"><i class="bi bi-arrow-repeat"></i><span class="nav-label">Wellness Reassessment</span></a>
+        </li>
+        <li><a href="/wellness-analytics"><i class="bi bi-graph-up-arrow"></i><span class="nav-label">Wellness Analytics</span></a></li>
+        <li><a href="/feedback"><i class="bi bi-chat-square-text"></i><span class="nav-label">Feedback</span></a></li>
+        <li><a href="/session-history"><i class="bi bi-clock-history"></i><span class="nav-label">Session History</span></a></li>
+        <li><a href="/profile" class="nav-icon-profile"><i class="bi bi-person-circle"></i><span class="nav-label">Profile</span></a></li>
+      </ul>
+    </div>
+  </nav>
+  <header class="app-topbar">
+    <div class="app-topbar-title">Hello, {{ session.get('username', user.username if user is defined else current_user
+      if current_user is defined else 'Yogi') }} - Welcome to YogGyaan</div>
+      <div class="profile-menu">
+      <div class="topbar-dropdown">
+        <button type="button" class="icon-btn" data-dropdown-trigger aria-haspopup="true" aria-expanded="false" title="Notifications" aria-label="Notifications">
+          <i class="bi bi-bell"></i>
+          <span class="notif-badge">5</span>
+        </button>
+        <div class="dropdown-panel">
+          <div class="dropdown-panel-title">Notifications</div>
+          <div class="notif-list">
+            <div class="notif-item"><i class="bi bi-stars"></i><div><strong>Daily Challenge Available</strong><small>A new challenge is ready for you today</small></div></div>
+            <div class="notif-item"><i class="bi bi-alarm"></i><div><strong>Session Reminder</strong><small>Your scheduled practice window is open</small></div></div>
+            <div class="notif-item"><i class="bi bi-trophy"></i><div><strong>Achievement Unlocked</strong><small>You've earned a new badge</small></div></div>
+            <div class="notif-item"><i class="bi bi-exclamation-triangle"></i><div><strong>Streak Warning</strong><small>Practice today to keep your streak alive</small></div></div>
+            <div class="notif-item"><i class="bi bi-heart-pulse"></i><div><strong>Wellness Recommendation</strong><small>New guidance based on your latest check-in</small></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="topbar-dropdown">
+        <button type="button" class="icon-btn profile-trigger" data-dropdown-trigger aria-haspopup="true" aria-expanded="false" title="Account" aria-label="Account menu">
+          <i class="bi bi-person-circle"></i>
+          <i class="bi bi-chevron-down caret-icon"></i>
+        </button>
+        <div class="dropdown-panel">
+          <a href="/profile" class="dropdown-item"><i class="bi bi-person"></i>Profile</a>
+          <form action="/logout" method="POST" class="dropdown-form">
+            <button type="submit" class="dropdown-item dropdown-item-danger"><i class="bi bi-box-arrow-right"></i>Logout</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="container page-wrap">
+    <h1 class="text-center shimmer-text">Lotus Haven Rankings</h1>
+    {% if entries %}
+    <div class="top3-pinned">
+      <div class="top3">
+        {% for entry in entries[:3] %}
+        <div class="podium {% if entry.username==current_user %}me{% endif %}">
+          <div class="medal">{% if loop.index==1 %}🥇{% elif loop.index==2 %}🥈{% else %}🥉{% endif %}</div>
+          <div class="avatar" style="margin:auto">{{ entry.username[0]|upper }}</div>
+          <h3>{{ entry.username }}</h3>
+          <p>Level {{entry.level}}</p><strong>{{"{:,}".format(entry.xp)}} XP</strong>
+        </div>{% endfor %}
+      </div>
+    </div>
+
+    <div class="leaderboard-list-head">
+      <div class="text-xs text-muted">Showing all {{ entries|length }} ranked yogis</div>
+      {% if current_user in entries|map(attribute='username')|list %}
+      <button type="button" class="my-rank-btn" id="myRankBtn"><i class="bi bi-crosshair"></i> Jump to my rank</button>
+      {% endif %}
+    </div>
+
+    <div id="leaderboardList">
+      {% for entry in entries %}
+      <div class="rank-row {% if entry.username==current_user %}me{% endif %}" data-username="{{entry.username}}"
+        data-rank="{{entry.rank}}">
+        <div style="font-weight:700;width:50px">#{{entry.rank}}</div>
+        <div class="avatar">{{ entry.username[0]|upper }}</div>
+        <div style="flex:1">
+          <div>{{entry.username}} {% if entry.username==current_user %}(You){% endif %}</div>
+          <div class="text-xs text-muted">Lvl {{entry.level}} • 🔥 {{entry.streak or 0}}</div>
+          <div class="progress">
+            <div class="fill" style="width:{{ [entry.level*5,100]|min }}%"></div>
+          </div>
+        </div>
+        <div><strong>{{"{:,}".format(entry.xp)}}</strong>
+          <div class="text-xs">XP</div>
+        </div>
+      </div>{% endfor %}
+    </div>
+
+    <nav class="pagination" id="pagination" aria-label="Leaderboard pages"></nav>
+    {% endif %}
+  </div>
+  <script>
+    (function () {
+      const PAGE_SIZE = 10;
+      const rows = [...document.querySelectorAll('#leaderboardList .rank-row')];
+      const pager = document.getElementById('pagination');
+      if (!rows.length || !pager) return;
+      const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+      let currentPage = 1;
+
+      function showPage(page, opts) {
+        opts = opts || {};
+        currentPage = Math.min(Math.max(1, page), totalPages);
+        rows.forEach((row, idx) => {
+          const rowPage = Math.floor(idx / PAGE_SIZE) + 1;
+          row.style.display = rowPage === currentPage ? '' : 'none';
+        });
+        renderPagination();
+        if (opts.scrollToMe) scrollToMyRank();
+      }
+
+      function scrollToMyRank() {
+        const meRow = document.querySelector('#leaderboardList .rank-row.me');
+        if (!meRow) return;
+        const myPage = Math.floor(rows.indexOf(meRow) / PAGE_SIZE) + 1;
+        if (myPage !== currentPage) { showPage(myPage); }
+        requestAnimationFrame(() => {
+          meRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          meRow.classList.remove('me-flash');
+          void meRow.offsetWidth;
+          meRow.classList.add('me-flash');
+          setTimeout(() => meRow.classList.remove('me-flash'), 1600);
+        });
+      }
+
+      function pageList(current, total) {
+        const delta = 1;
+        const range = [];
+        for (let i = Math.max(2, current - delta); i <= Math.min(total - 1, current + delta); i++) range.push(i);
+        if (current - delta > 2) range.unshift('…');
+        if (current + delta < total - 1) range.push('…');
+        range.unshift(1);
+        if (total > 1) range.push(total);
+        return [...new Set(range)];
+      }
+
+      function renderPagination() {
+        pager.innerHTML = '';
+        const addBtn = (label, page, disabled, active) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.textContent = label;
+          b.className = 'page-btn' + (active ? ' active' : '') + (disabled ? ' disabled' : '');
+          if (disabled) b.disabled = true;
+          b.addEventListener('click', () => showPage(page));
+          pager.appendChild(b);
+        };
+        addBtn('‹', currentPage - 1, currentPage === 1, false);
+        pageList(currentPage, totalPages).forEach(p => {
+          if (p === '…') {
+            const span = document.createElement('span');
+            span.textContent = '…';
+            span.className = 'page-ellipsis';
+            pager.appendChild(span);
+          } else {
+            addBtn(String(p), p, false, p === currentPage);
+          }
+        });
+        addBtn('›', currentPage + 1, currentPage === totalPages, false);
+      }
+
+      const myRankBtn = document.getElementById('myRankBtn');
+      if (myRankBtn) myRankBtn.addEventListener('click', scrollToMyRank);
+
+      const meRow = document.querySelector('#leaderboardList .rank-row.me');
+      const initialPage = meRow ? Math.floor(rows.indexOf(meRow) / PAGE_SIZE) + 1 : 1;
+      showPage(initialPage, { scrollToMe: !!meRow });
+    })();
+  </script>
+</body>
+
+</html>

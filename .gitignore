@@ -1,0 +1,24 @@
+# Database - test/local data, don't commit
+database.db
+*.db
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment (if you make one locally)
+venv/
+env/
+.venv/
+
+# Environment secrets (precaution, even if you don't have one yet)
+.env
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor/IDE junk
+.idea/
+*.swp

@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YogGyaan - Practice</title>
+  <link rel="stylesheet" href="/static/css/style.css?v=2" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    .rep-panel {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.65rem 1rem;
+      margin-top: 0.6rem;
+      position: relative;
+    }
+
+    .rep-count-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 48px;
+    }
+
+    .rep-count-big {
+      font-size: 1.6rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--green);
+    }
+
+    .rep-count-label {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .rep-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+    }
+
+    .rep-hold-wrap {
+      flex: 1;
+    }
+
+    .rep-hold-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .rep-hold-track {
+      height: 6px;
+      background: var(--surface-2, #2a2a2a);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .rep-hold-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--green);
+      border-radius: 3px;
+      transition: width 0.1s linear;
+    }
+
+    .rep-flash {
+      position: absolute;
+      top: -28px;
+      right: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--green);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .rep-status {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .hold-panel {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid #f472b6;
+      border-radius: 10px;
+      padding: 0.65rem 1rem;
+      margin-top: 0.6rem;
+      position: relative;
+    }
+
+    .hold-timer-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 54px;
+    }
+
+    .hold-timer-big {
+      font-size: 1.6rem;
+      font-weight: 800;
+      line-height: 1;
+      color: #f472b6;
+    }
+
+    .hold-timer-label {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .hold-bar-wrap {
+      flex: 1;
+    }
+
+    .hold-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .hold-bar-track {
+      height: 6px;
+      background: var(--surface-2, #2a2a2a);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .hold-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: #f472b6;
+      border-radius: 3px;
+      transition: width 0.15s linear;
+    }
+
+    .hold-flash {
+      position: absolute;
+      top: -28px;
+      right: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #f472b6;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .hold-mode-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #f472b6;
+      background: rgba(244, 114, 182, 0.12);
+      border: 1px solid rgba(244, 114, 182, 0.3);
+      border-radius: 4px;
+      padding: 2px 7px;
+      margin-top: 3px;
+    }
+
+    .result-bonus-row {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .bonus-improve {
+      background: rgba(74, 222, 128, 0.1);
+      color: var(--green);
+      border: 1px solid rgba(74, 222, 128, 0.3);
+    }
+
+    .bonus-mastery {
+      background: rgba(250, 204, 21, 0.1);
+      color: var(--gold);
+      border: 1px solid rgba(250, 204, 21, 0.3);
+    }
+
+    .bonus-stage {
+      background: rgba(139, 92, 246, 0.1);
+      color: #a78bfa;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+    }
+
+    .level-name-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 2px;
+      min-height: 1em;
+    }
+
+    .time-session-banner {
+      background: linear-gradient(135deg, rgba(74, 222, 128, .12), rgba(96, 165, 250, .12));
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: .85rem 1rem;
+      margin: 1rem auto;
+      max-width: 1100px;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap
+    }
+
+    .time-session-banner strong {
+      display: block
+    }
+
+    .time-session-timer {
+      font-weight: 800;
+      color: var(--green)
+    }
+
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: .7rem !important;
+      align-items: stretch
+    }
+
+    .result-stat {
+      display: flex !important;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 88px;
+      padding: .75rem !important;
+      text-align: center
+    }
+
+    .result-stat-value {
+      line-height: 1.05
+    }
+
+    .result-stat-label {
+      margin-top: .28rem;
+      line-height: 1.15
+    }
+
+    .game-container,
+    .practice-container {
+      gap: .8rem !important
+    }
+
+    .panel,
+    .card {
+      padding: 1rem
+    }
+
+    .free-practice-mode #btnEndTimeBlockTop,
+    .free-practice-mode #btnEndTimeBlockResult {
+      display: none !important;
+    }
+  </style>
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="theme-color" content="#1a473f">
+  <link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+  <script src="/static/js/pwa.js" defer></script>
+</head>
+
+<body class="game-page">
+
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="navbar-brand"><i class="bi bi-flower2"></i><span class="nav-label">YogGyaan</span></div>
+      <ul class="navbar-nav">
+        <li><a href="/dashboard"><i class="bi bi-house-door"></i><span class="nav-label">Dashboard</span></a></li>
+        <li><a href="/yoga-library"><i class="bi bi-person-arms-up"></i><span class="nav-label">Yoga Library</span></a></li>
+        <li><a href="/world-map"><i class="bi bi-map"></i><span class="nav-label">World Map</span></a></li>
+        <li><a href="/leaderboard"><i class="bi bi-trophy"></i><span class="nav-label">Leaderboard</span></a></li>
+        <li><a href="/health-assessment"><i class="bi bi-heart-pulse"></i><span class="nav-label">Health Assessment</span></a></li>
+        <li><a href="/wellness-reassessment"><i class="bi bi-arrow-repeat"></i><span class="nav-label">Wellness Reassessment</span></a>
+        </li>
+        <li><a href="/wellness-analytics"><i class="bi bi-graph-up-arrow"></i><span class="nav-label">Wellness Analytics</span></a></li>
+        <li><a href="/feedback"><i class="bi bi-chat-square-text"></i><span class="nav-label">Feedback</span></a></li>
+        <li><a href="/session-history"><i class="bi bi-clock-history"></i><span class="nav-label">Session History</span></a></li>
+        <li><a href="/profile" class="nav-icon-profile"><i class="bi bi-person-circle"></i><span class="nav-label">Profile</span></a></li>
+      </ul>
+    </div>
+  </nav>
+  <header class="app-topbar game-topbar">
+    <div class="app-topbar-title">Hello, {{ session.get('username', user.username if user is defined else current_user
+      if current_user is defined else 'Yogi') }} - Welcome to YogGyaan</div>
+    <div class="game-top-actions">
+      <a href="/dashboard" class="btn btn-ghost btn-sm">Dashboard</a>
+      <button id="btnFinishTop" class="btn btn-primary btn-sm" type="button">End Pose</button>
+    </div>
+  </header>
+  <div class="schedule-card" style="display:none!important;margin:1rem auto;max-width:1120px">
+    <div class="section-label">Active Status</div>
+    <h3 id="timeSessionTitle">Loading practice status...</h3>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center">
+      <div><span class="text-xs text-muted">Time Remaining</span>
+        <div id="timeSessionCountdown" style="font-size:1.4rem;font-weight:800">--:--</div>
+      </div>
+      <div><span class="text-xs text-muted">Total Duration</span>
+        <div id="timeSessionTotal" style="font-weight:700">--</div>
+      </div>
+      <div><span class="text-xs text-muted">Session Progress</span>
+        <div id="timeSessionProgress" style="font-weight:700">0%</div>
+      </div>
+      <button id="btnEndTimeBlockTop" class="btn btn-ghost btn-sm" type="button">End Session</button>
+    </div>
+  </div>
+
+  <div id="gameData" hidden data-pose-name="" data-pose="" data-levels="">
+  </div>
+
+  <style>
+    /* ── Tutorial phase: fully scoped, immune to style.css overrides ── */
+    #tp {
+      display: none;
+      position: fixed;
+      inset: 52px 0 0 72px;
+      /* game-page topbar=52px, sidebar-peek=72px */
+      background: var(--bg, #0b1120);
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    #tutorialPhase[style*="block"] #tp,
+    #tutorialPhase[style*="flex"] #tp {
+      display: block;
+    }
+
+    #tp-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch;
+      gap: 12px;
+      height: 100%;
+      /* Extra top padding so the mission panel and camera frame both start
+         with clear breathing room below the fixed header, instead of
+         sticking flush against it. */
+      padding: 22px 14px 14px;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 900px) {
+      #tp {
+        overflow-y: auto;
+      }
+
+      #tp-split {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+        padding: 16px 12px 12px;
+        height: auto;
+        min-height: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #tp-split {
+        padding: 12px 10px 10px;
+      }
+    }
+
+    /* ── LEFT COLUMN ── */
+    #tp-left {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    /* dots */
+    #stepDots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    /* mission card */
+    #tp-mission {
+      background: rgba(15, 25, 50, 0.85);
+      border: 1px solid rgba(74, 222, 128, 0.25);
+      border-radius: 14px;
+      padding: 14px 18px;
+    }
+
+    #stepNumber {
+      font-size: 0.6rem;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #4ade80;
+      margin-bottom: 4px;
+    }
+
+    #stepTitle {
+      font-size: 1.1rem;
+      font-weight: 800;
+      font-family: var(--font-display, serif);
+      color: #4ade80;
+      font-style: italic;
+      line-height: 1.2;
+    }
+
+    #stepInstruction {
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      line-height: 1.4;
+      margin: 6px 0 0;
+    }
+
+    /* validate ring row */
+    #tp-validate {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(15, 25, 50, 0.7);
+      border: 1px solid rgba(100, 116, 139, 0.2);
+      border-radius: 12px;
+      padding: 8px 12px;
+    }
+
+    .validate-ring-container {
+      position: relative;
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+    }
+
+    .validate-ring {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .vr-bg {
+      fill: none;
+      stroke: rgba(100, 116, 139, 0.25);
+      stroke-width: 5;
+    }
+
+    .vr-fill {
+      fill: none;
+      stroke: #4ade80;
+      stroke-width: 5;
+      stroke-dasharray: 169.6;
+      stroke-dashoffset: 169.6;
+      transition: stroke-dashoffset 0.3s;
+      stroke-linecap: round;
+    }
+
+    .validate-ring-icon {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    #validateLabel {
+      font-size: 0.72rem;
+      color: #94a3b8;
+      line-height: 1.3;
+    }
+
+    /* skip button */
+    #btnSkipStep {
+      flex-shrink: 0;
+      background: transparent;
+      border: 1px solid rgba(100, 116, 139, 0.3);
+      border-radius: 10px;
+      color: #94a3b8;
+      font-size: 0.72rem;
+      padding: 7px 12px;
+      cursor: pointer;
+      text-align: center;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    #btnSkipStep:hover {
+      border-color: #4ade80;
+      color: #4ade80;
+    }
+
+    /* dummy guide card */
+    #dummyGuideCard {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 0;
+      min-height: 220px;
+      background: radial-gradient(circle at top left, rgba(74, 222, 128, 0.12), rgba(15, 23, 42, 0.9) 60%), rgba(10, 16, 28, 0.95);
+      border: 1px solid rgba(74, 222, 128, 0.2);
+      border-radius: 14px;
+      padding: 10px 12px;
+      overflow: hidden;
+    }
+
+    #tp-guide-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-shrink: 0;
+      margin-bottom: 6px;
+    }
+
+    .dummy-guide-kicker {
+      font-size: 0.5rem;
+      font-weight: 900;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: #4ade80;
+    }
+
+    #dummyGuideTitle {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+
+    /* stick figure stage - guaranteed visible height */
+    #dummyStage {
+      flex: 1 1 auto;
+      min-height: 160px;
+      max-height: 260px;
+      position: relative;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(2, 6, 23, 0.6), rgba(8, 24, 18, 0.95));
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    #dummyPoseSvg {
+      width: 65%;
+      height: 85%;
+      min-height: 120px;
+      overflow: visible;
+      filter: drop-shadow(0 0 20px rgba(74, 222, 128, 0.25));
+    }
+
+    #dummyPoseSvg line,
+    #dummyPoseSvg .dummy-head {
+      stroke: url(#dummyGlow);
+      stroke-width: 8;
+      stroke-linecap: round;
+      fill: transparent;
+      transition: all .65s cubic-bezier(.2, .8, .2, 1);
+    }
+
+    #dummyPoseSvg .dummy-head {
+      fill: url(#dummyGlow);
+      stroke: none;
+    }
+
+    #dummyPoseSvg .dummy-ground {
+      fill: rgba(74, 222, 128, 0.08);
+      stroke: rgba(74, 222, 128, 0.18);
+      stroke-width: 1.5;
+    }
+
+    #dummyPoseSvg .dummy-focus {
+      fill: #facc15;
+      stroke: rgba(250, 204, 21, .55);
+      stroke-width: 2;
+      filter: drop-shadow(0 0 10px rgba(250, 204, 21, .95));
+      animation: dummyPulse 1s ease-in-out infinite alternate;
+    }
+
+    #dummyPoseSvg .dummy-wall {
+      stroke: rgba(250, 204, 21, .65);
+      stroke-width: 4;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 8px rgba(250, 204, 21, .45));
+      transition: all .65s cubic-bezier(.2, .8, .2, 1);
+    }
+
+    #dummyPoseSvg .dummy-move {
+      stroke: #38bdf8;
+      stroke-width: 3;
+      stroke-linecap: round;
+      fill: none;
+      filter: drop-shadow(0 0 8px rgba(56, 189, 248, .9));
+      animation: dashFlow 1.1s linear infinite;
+      stroke-dasharray: 8 7;
+    }
+
+    @keyframes dummyPulse {
+      from {
+        opacity: .55;
+        transform: scale(.92);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1.08);
+      }
+    }
+
+    @keyframes dashFlow {
+      to {
+        stroke-dashoffset: -30;
+      }
+    }
+
+    .dummy-orbit {
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      border: 1px solid rgba(74, 222, 128, 0.1);
+      pointer-events: none;
+    }
+
+    #dummyGuideText {
+      flex-shrink: 0;
+      font-size: 0.62rem;
+      color: #64748b;
+      line-height: 1.3;
+      margin-top: 6px;
+      text-align: center;
+    }
+
+    /* ── RIGHT COLUMN ── */
+    #tp-right {
+      display: grid;
+      grid-template-rows: 1fr auto auto;
+      gap: 8px;
+      min-height: 0;
+    }
+
+    #tp-video-wrap {
+      position: relative;
+      border-radius: 18px;
+      background: #000;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    #tutorialVideo,
+    #tutorialCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .tutorial-cam-status {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.75);
+      background: rgba(0, 0, 0, 0.55);
+      padding: 5px 8px;
+      pointer-events: none;
+    }
+
+    #poseDescription {
+      font-size: 0.72rem;
+      color: #64748b;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    #poseModeLabel {
+      text-align: center;
+    }
+  </style>
+
+  <div id="tutorialPhase" style="display:none">
+    <div id="tp">
+      <div id="tp-split">
+
+        
+        <div id="tp-left">
+
+          <div id="stepDots"></div>
+
+          <div id="tp-mission">
+            <div id="stepNumber">Mission 1 of 3</div>
+            <div id="stepTitle"></div>
+            <p id="stepInstruction"></p>
+          </div>
+
+          <div id="tp-validate">
+            <div class="validate-ring-container">
+              <svg class="validate-ring" viewBox="0 0 64 64">
+                <circle class="vr-bg" cx="32" cy="32" r="27" />
+                <circle class="vr-fill" cx="32" cy="32" r="27" id="validateRingCircle" />
+              </svg>
+              <div class="validate-ring-icon" id="validateRingIcon"></div>
+            </div>
+            <p class="validate-label" id="validateLabel">Step into frame and hold the pose...</p>
+          </div>
+
+          <button id="btnSkipStep">Skip Step</button>
+
+          <div id="dummyGuideCard">
+            <div id="tp-guide-head">
+              <span class="dummy-guide-kicker">Step-by-step dummy guide</span>
+              <strong id="dummyGuideTitle">Watch the guide</strong>
+            </div>
+            <div class="dummy-stage" id="dummyStage">
+              <svg id="dummyPoseSvg" viewBox="0 0 220 250" aria-label="Pose guide animation">
+                <defs>
+                  <linearGradient id="dummyGlow" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#86efac" />
+                    <stop offset="100%" stop-color="#38bdf8" />
+                  </linearGradient>
+                  <marker id="dummyArrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"
+                    markerUnits="strokeWidth">
+                    <path d="M0,0 L0,6 L9,3 z" fill="#38bdf8" />
+                  </marker>
+                </defs>
+                <circle class="dummy-head" cx="110" cy="38" r="16" />
+                <line class="dummy-spine" x1="110" y1="55" x2="110" y2="118" />
+                <line class="dummy-shoulders" x1="76" y1="72" x2="144" y2="72" />
+                <line class="dummy-hips" x1="88" y1="122" x2="132" y2="122" />
+                <line class="dummy-left-arm" x1="78" y1="74" x2="70" y2="132" />
+                <line class="dummy-right-arm" x1="142" y1="74" x2="150" y2="132" />
+                <line class="dummy-left-forearm" x1="70" y1="132" x2="76" y2="178" />
+                <line class="dummy-right-forearm" x1="150" y1="132" x2="144" y2="178" />
+                <line class="dummy-left-leg" x1="91" y1="123" x2="88" y2="178" />
+                <line class="dummy-right-leg" x1="129" y1="123" x2="132" y2="178" />
+                <line class="dummy-left-calf" x1="88" y1="178" x2="84" y2="220" />
+                <line class="dummy-right-calf" x1="132" y1="178" x2="136" y2="220" />
+                <line class="dummy-wall" x1="0" y1="0" x2="0" y2="0" style="display:none" />
+                <line class="dummy-move" x1="0" y1="0" x2="0" y2="0" marker-end="url(#dummyArrow)"
+                  style="display:none" />
+                <line class="dummy-move" x1="0" y1="0" x2="0" y2="0" marker-end="url(#dummyArrow)"
+                  style="display:none" />
+                <circle class="dummy-focus" cx="0" cy="0" r="0" style="display:none" />
+                <circle class="dummy-focus" cx="0" cy="0" r="0" style="display:none" />
+                <circle class="dummy-focus" cx="0" cy="0" r="0" style="display:none" />
+                <ellipse class="dummy-ground" cx="110" cy="226" rx="74" ry="8" />
+              </svg>
+              <div class="dummy-orbit"></div>
+            </div>
+            <p id="dummyGuideText" class="dummy-guide-text">Follow the animated stick guide, then match it in camera to
+              unlock the next step.</p>
+          </div>
+
+        </div>
+
+        
+        <div id="tp-right">
+          <div id="tp-video-wrap">
+            <video id="tutorialVideo" playsinline muted autoplay></video>
+            <canvas id="tutorialCanvas"></canvas>
+            <div class="tutorial-cam-status" id="tutorialStatus">Starting camera...</div>
+          </div>
+          <p id="poseDescription"></p>
+          <div id="poseModeLabel"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="practicePhase" style="display:none">
+    <div class="game-split-layout">
+      <div class="pose-panel">
+        <div class="video-wrapper">
+          <video id="webcamVideo" playsinline muted></video>
+          <canvas id="poseCanvas"></canvas>
+          <div class="levelup-overlay">
+            <div class="levelup-text" id="levelupText">Level Up!</div>
+          </div>
+        </div>
+
+        <div class="pose-stats-row">
+          <div class="pose-stat">
+            <div class="pose-stat-value" id="accValue">--</div>
+            <div class="pose-stat-label">Accuracy</div>
+          </div>
+          <div class="pose-stat">
+            <div class="pose-stat-value text-gold" id="holdTimerDisplay">-</div>
+            <div class="pose-stat-label">Level</div>
+          </div>
+          <div class="pose-stat">
+            <div class="pose-stat-value text-green" id="xpDisplay">+0</div>
+            <div class="pose-stat-label">XP Est.</div>
+          </div>
+        </div>
+        <div id="repPanelWrap" class="rep-panel">
+          <div class="rep-count-wrap">
+            <div class="rep-count-big" id="repCount">0</div>
+            <div class="rep-count-label">of <span id="repTarget">3</span> reps</div>
+          </div>
+          <div class="rep-divider"></div>
+          <div class="rep-hold-wrap">
+            <div class="rep-hold-label">
+              <span>Hold to count rep</span>
+              <span id="repStatus"></span>
+            </div>
+            <div class="rep-hold-track">
+              <div class="rep-hold-fill" id="repHoldBar"></div>
+            </div>
+            <div class="rep-status" id="repStatusSub">Enter pose above accuracy threshold</div>
+          </div>
+          <div class="rep-flash" id="repFlash">+1 Rep!</div>
+        </div>
+        <div id="holdPanelWrap" class="hold-panel" style="display:none">
+          <div class="hold-timer-wrap">
+            <div class="hold-timer-big" id="holdTimerValue">0s</div>
+            <div class="hold-timer-label">/ <span id="holdTargetValue">10s</span></div>
+            <div class="hold-mode-badge">Hold Pose</div>
+          </div>
+          <div class="rep-divider"></div>
+          <div class="hold-bar-wrap">
+            <div class="hold-bar-label">
+              <span>Hold duration</span>
+              <span>Stay above accuracy threshold</span>
+            </div>
+            <div class="hold-bar-track">
+              <div class="hold-bar-fill" id="holdProgressBar"></div>
+            </div>
+            <div class="rep-status" id="holdStatus">Enter pose and breathe steadily</div>
+          </div>
+          <div class="hold-flash" id="holdFlash">Level Up!</div>
+        </div>
+
+        <div class="hint-bar hint-bar-ok" id="hintBar">Adjusting pose...</div>
+        <div class="practice-action-row">
+          <a href="/dashboard" class="btn btn-ghost" id="btnPracticeDashboard">Dashboard</a>
+          <button id="btnFinish" class="btn btn-primary" type="button">End Pose</button>
+        </div>
+      </div>
+      <div class="world-panel">
+        <canvas id="gameWorldCanvas" class="game-world-canvas"></canvas>
+
+        <div class="world-hud">
+          <div class="world-hud-top">
+            <span class="world-level-badge">Level <span id="currentLevel">1</span> / 4</span>
+            <div class="world-pips">
+              <div class="world-pip active" id="wpip1"></div>
+              <div class="world-pip locked" id="wpip2"></div>
+              <div class="world-pip locked" id="wpip3"></div>
+              <div class="world-pip locked" id="wpip4"></div>
+            </div>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="levelProgressBar" style="width:0%"></div>
+          </div>
+          <p class="world-milestone" id="worldMilestone">Enter the pose to begin...</p>
+          <p class="level-name-tag" id="levelNameTag"></p>
+        </div>
+
+        <div id="goalCardsWrap" style="display:none"></div>
+      </div>
+
+    </div>
+  </div>
+  <div id="resultPhase" class="result-page" style="display:none">
+    <div class="result-card">
+      <h2 class="font-display" style="font-size:1.6rem; margin-bottom:0.25rem">Session Complete!</h2>
+      <p class="text-muted text-sm mb-4" id="resultRegionText">Region has been partially restored</p>
+
+      <div class="result-stats">
+        <div class="result-stat">
+          <div class="result-stat-value text-green" id="resultXP">+0</div>
+          <div class="result-stat-label">XP Earned</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-value" id="resultLevel">L1</div>
+          <div class="result-stat-label">Level Reached</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-value" id="resultAccuracy">0%</div>
+          <div class="result-stat-label">Accuracy</div>
+        </div>
+        <div class="result-stat" id="resultRepsWrap">
+          <div class="result-stat-value text-gold" id="resultReps">0</div>
+          <div class="result-stat-label">Reps Done</div>
+        </div>
+        <div class="result-stat" id="resultHoldWrap" style="display:none">
+          <div class="result-stat-value" style="color:#f472b6" id="resultHoldTime">0s</div>
+          <div class="result-stat-label">Hold Time</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-value" id="resultDuration">0s</div>
+          <div class="result-stat-label">Duration</div>
+        </div>
+      </div>
+
+      <div id="leveledUpNotice" class="hint-bar hint-bar-good mb-3" style="display:none;justify-content:center">
+        ✨ You leveled up!
+      </div>
+      <div id="improveBonus" class="result-bonus-row bonus-improve">📈</div>
+      <div id="masteryChange" class="result-bonus-row bonus-mastery">🏅</div>
+      <div id="stageChange" class="result-bonus-row bonus-stage">🌍</div>
+
+      <div id="newBadgesWrap" style="display:none" class="card card-gold mb-3">
+        <p class="text-xs font-semibold text-gold mb-2">New Badges Earned</p>
+        <div id="newBadgesList" class="flex flex-wrap gap-2"></div>
+      </div>
+
+      <div class="grid-4 gap-3 mt-2">
+        <button id="btnPracticeAgain" class="btn btn-ghost">Practice Again</button>
+        <button id="btnEndTimeBlockResult" class="btn btn-primary" type="button">End Full Session</button>
+        <a href="/yoga-library" class="btn btn-ghost">Choose Another Asana</a>
+        <a href="/dashboard" class="btn btn-ghost">Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="loadingScreen" style="display:flex;align-items:center;justify-content:center;height:60vh">
+    <p class="text-muted">Loading pose data...</p>
+  </div>
+
+  <script type="module">
+    import { PoseLandmarker, FilesetResolver, DrawingUtils } from
+      "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/vision_bundle.mjs";
+    window.MediaPipeVision = { PoseLandmarker, FilesetResolver, DrawingUtils };
+  </script>
+
+  <script>
+    (function () {
+      const parts = window.location.pathname.split("/").filter(Boolean);
+      const poseName = parts[parts.length - 1] || "";
+      if (!poseName) {
+        // No pose in the URL at all -- never guess Tree Pose here, just
+        // send the user back to pick a pose explicitly.
+        window.location = "/dashboard";
+      } else {
+
+      fetch("/api/game-data/" + poseName)
+        .then(function (r) {
+          if (!r.ok) { window.location = "/dashboard"; return null; }
+          return r.json();
+        })
+        .then(function (data) {
+          if (!data) return;
+
+          var el = document.getElementById("gameData");
+          el.setAttribute("data-pose-name", data.pose_name);
+          el.setAttribute("data-pose", JSON.stringify(data.pose));
+          el.setAttribute("data-levels", JSON.stringify(data.levels));
+
+          document.title = (data.pose.name || poseName) + " \u2014 YogGyaan";
+
+          var descEl = document.getElementById("poseDescription");
+          if (descEl) descEl.textContent = data.pose.description || "";
+
+          var modeLabelEl = document.getElementById("poseModeLabel");
+          if (modeLabelEl && data.levels.is_hold_pose) {
+            modeLabelEl.innerHTML =
+              '<span style="display:inline-flex;align-items:center;gap:5px;font-size:0.72rem;' +
+              'font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#f472b6;' +
+              'background:rgba(244,114,182,0.12);border:1px solid rgba(244,114,182,0.3);' +
+              'border-radius:5px;padding:3px 9px;">' +
+              'Hold-Based Pose: Choose your own target reps</span>';
+          }
+
+          var regionEl = document.getElementById("resultRegionText");
+          if (regionEl) regionEl.textContent = (data.pose.region || "Region") + " has been partially restored";
+
+          var steps = data.pose.tutorial_steps || [];
+          var dotsEl = document.getElementById("stepDots");
+          if (dotsEl) {
+            dotsEl.innerHTML = "";
+            steps.forEach(function (_, i) {
+              var dot = document.createElement("div");
+              dot.className = "step-dot" + (i === 0 ? " active" : "");
+              dotsEl.appendChild(dot);
+            });
+          }
+
+          var sessionLevels = (data.levels && data.levels.session_levels) || [];
+          var wrap = document.getElementById("goalCardsWrap");
+          if (wrap) {
+            wrap.innerHTML = "";
+            sessionLevels.forEach(function (lvl) {
+              var div = document.createElement("div");
+              div.id = "goalCard" + lvl.level;
+              wrap.appendChild(div);
+            });
+          }
+
+          function updateLevelNameTag() {
+            var tag = document.getElementById("levelNameTag");
+            if (!tag) return;
+            var lvl = (sessionLevels[0] || {});
+            var desc = data.levels.is_hold_pose ? (lvl.description || "") : (lvl.description || "");
+            tag.textContent = lvl.name ? lvl.name + " \u2014 " + desc : "";
+          }
+          updateLevelNameTag();
+
+          function showTutorialAndLoadScripts() {
+            document.getElementById("loadingScreen").style.display = "none";
+            document.getElementById("tutorialPhase").style.display = "block";
+
+            loadScript("/static/js/pose_utils.js", function () {
+              loadScript("/static/js/game_world.js", function () {
+                loadScript("/static/js/pose_tutorial.js", function () {
+                  loadScript("/static/js/game.js", null);
+                });
+              });
+            });
+          }
+
+          function askRepsBeforeTutorial() {
+            const overlay = document.createElement("div");
+            overlay.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:9999;display:flex;align-items:center;justify-content:center;";
+            overlay.innerHTML = `
+              <div style="background:var(--surface,#171717);border:1px solid var(--border,#333);border-radius:18px;padding:24px;max-width:360px;width:90%;text-align:center;box-shadow:0 20px 70px rgba(0,0,0,.45)">
+                <h3 style="margin:0 0 8px;font-size:1.2rem">How many repetitions would you like to perform?</h3>
+                <p style="margin:0 0 18px;color:var(--text-muted,#aaa);font-size:.9rem">We'll show you the pose tutorial next.</p>
+                <div style="display:grid;gap:10px;text-align:left">
+                  <label style="font-size:.78rem;color:var(--text-muted,#aaa);font-weight:700">Target reps</label>
+                  <input id="preTutorialRepInput" type="number" min="1" max="100" value="3" inputmode="numeric" style="width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--border,#333);background:rgba(255,255,255,.06);color:var(--text,#fff);font-size:1rem;font-weight:800;text-align:center" />
+                  <button class="btn btn-primary" id="preTutorialRepStart" type="button">Continue to Tutorial</button>
+                </div>
+              </div>`;
+            document.body.appendChild(overlay);
+            const input = overlay.querySelector("#preTutorialRepInput");
+            const start = overlay.querySelector("#preTutorialRepStart");
+            const submit = () => {
+              let val = parseInt(input.value, 10);
+              if (!Number.isFinite(val)) val = 3;
+              val = Math.max(1, Math.min(100, val));
+              window.__PRESELECTED_REP_TARGET__ = val;
+              overlay.remove();
+              showTutorialAndLoadScripts();
+            };
+            start.addEventListener("click", submit);
+            input.addEventListener("keydown", e => { if (e.key === "Enter") submit(); });
+            setTimeout(() => input.focus(), 50);
+          }
+
+          document.getElementById("loadingScreen").style.display = "none";
+          if (data.levels && data.levels.is_hold_pose) {
+            // Hold-based poses let the practitioner pick their own rep target.
+            // This is asked once, up front, and never again after the tutorial.
+            askRepsBeforeTutorial();
+          } else {
+            // Fixed multi-level poses use the predefined reps-per-level from
+            // session_levels, so there's nothing to ask here.
+            showTutorialAndLoadScripts();
+          }
+        })
+        .catch(function () {
+          window.location = "/dashboard";
+        });
+
+      function loadScript(src, cb) {
+        var s = document.createElement("script");
+        s.src = src;
+        s.onload = cb || null;
+        document.body.appendChild(s);
+      }
+      }
+    }());
+  </script>
+
+
+  <script>
+    (function () {
+      async function refreshTimeBlock() {
+        try {
+          const startResp = await fetch("/api/start-time-block-session", { method: "POST" });
+          const statusResp = await fetch("/api/session-status");
+          const data = await statusResp.json();
+          const active = data.active || data.current;
+          if (data.mode === "free") {
+            document.body.classList.add("free-practice-mode");
+            window.__YOGIFY_FREE_MODE__ = true;
+            const topEnd = document.getElementById("btnEndTimeBlockTop");
+            const resultEnd = document.getElementById("btnEndTimeBlockResult");
+            if (topEnd) topEnd.style.display = "none";
+            if (resultEnd) resultEnd.style.display = "none";
+            document.getElementById("timeSessionTitle").textContent = "Free Practice Mode";
+            document.getElementById("timeSessionCountdown").textContent = "Anytime";
+            document.getElementById("timeSessionTotal").textContent = "No session limit";
+            document.getElementById("timeSessionProgress").textContent = "Practice freely";
+            return;
+          }
+          if (active) {
+            document.getElementById("timeSessionTitle").textContent = active.slot_name + " · " + active.window_start + " - " + active.window_end + " · Active";
+            document.getElementById("timeSessionTotal").textContent = active.duration_minutes + " minutes";
+            document.getElementById("timeSessionProgress").textContent = (active.progress || 0) + "%";
+            startCountdown(active.seconds_remaining || 0);
+          } else {
+            document.getElementById("timeSessionCountdown").textContent = "No active block";
+          }
+        } catch (e) {
+          const el = document.getElementById("timeSessionCountdown");
+          if (el) el.textContent = "Session status unavailable";
+        }
+      }
+      function startCountdown(sec) {
+        const el = document.getElementById("timeSessionCountdown");
+        function tick() {
+          if (!el) return;
+          if (sec <= 0) {
+            el.textContent = "Ending...";
+            fetch("/api/end-time-block-session", { method: "POST" }).finally(() => { window.location = "/session-history"; });
+            return;
+          }
+          const m = Math.floor(sec / 60), s = sec % 60;
+          el.textContent = String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+          sec--;
+          setTimeout(tick, 1000);
+        }
+        tick();
+      }
+      async function endBlock() {
+        if (!confirm("End this full time-block session now?")) return;
+        try {
+          await fetch("/api/end-time-block-session", { method: "POST" });
+        } catch (e) { }
+        window.location = "/session-history";
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        refreshTimeBlock();
+        const topBtn = document.getElementById("btnEndTimeBlockTop");
+        const resultBtn = document.getElementById("btnEndTimeBlockResult");
+        const finishTop = document.getElementById("btnFinishTop");
+        if (topBtn) topBtn.addEventListener("click", endBlock);
+        if (resultBtn) resultBtn.addEventListener("click", endBlock);
+        setInterval(function () {
+          if (window.__YOGIFY_FREE_MODE__) {
+            const a = document.getElementById("btnEndTimeBlockTop"), b = document.getElementById("btnEndTimeBlockResult");
+            if (a) a.style.display = "none"; if (b) b.style.display = "none";
+          }
+        }, 500);
+        if (finishTop) finishTop.addEventListener("click", function () {
+          const finishBtn = document.getElementById("btnFinish");
+          if (finishBtn) finishBtn.click();
+        });
+      });
+    })();
+  </script>
+
+</body>
+
+</html>

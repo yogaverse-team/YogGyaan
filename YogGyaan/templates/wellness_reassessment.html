@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Wellness Reassessment - YogGyaan</title>
+  <link rel="stylesheet" href="/static/css/style.css?v=2">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    .wrap {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 1.5rem
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.15rem;
+      margin-bottom: 1rem
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: .85rem 1.25rem
+    }
+
+    @media(max-width:520px) {
+      .grid {
+        grid-template-columns: 1fr
+      }
+
+      .wrap {
+        padding: .8rem
+      }
+    }
+
+    label {
+      font-size: .78rem;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: .35rem
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .68rem;
+      color: var(--text)
+    }
+
+    textarea {
+      min-height: 75px
+    }
+
+    .trend {
+      display: grid;
+      grid-template-columns: 130px 1fr 50px;
+      gap: .65rem;
+      align-items: center;
+      margin: .55rem 0
+    }
+
+    .bar {
+      height: 10px;
+      background: rgba(255, 255, 255, .08);
+      border-radius: 99px;
+      overflow: hidden
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), var(--gold));
+      border-radius: 99px
+    }
+
+    .history {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: .75rem;
+      margin: .55rem 0
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: .85rem
+    }
+
+    .slider-row input[type=range] {
+      flex: 1;
+      width: auto;
+      min-height: auto;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--green), rgba(74, 222, 128, .18));
+      border: none;
+      padding: 0;
+      cursor: pointer
+    }
+
+    .slider-row input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--green);
+      border: 3px solid #0b1220;
+      box-shadow: 0 0 0 2px rgba(74, 222, 128, .35);
+      cursor: pointer
+    }
+
+    .slider-row input[type=range]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--green);
+      border: 3px solid #0b1220;
+      box-shadow: 0 0 0 2px rgba(74, 222, 128, .35);
+      cursor: pointer
+    }
+
+    .slider-value {
+      min-width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: .85rem;
+      color: #04130b;
+      background: var(--green);
+      border-radius: 8px;
+      flex: 0 0 auto
+    }
+  </style>
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="theme-color" content="#1a473f">
+  <link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+  <script src="/static/js/pwa.js" defer></script>
+  <script src="/static/js/topbar-dropdown.js" defer></script>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="navbar-brand"><i class="bi bi-flower2"></i><span class="nav-label">YogGyaan</span></div>
+      <ul class="navbar-nav">
+        <li><a href="/dashboard"><i class="bi bi-house-door"></i><span class="nav-label">Dashboard</span></a></li>
+        <li><a href="/yoga-library"><i class="bi bi-person-arms-up"></i><span class="nav-label">Yoga Library</span></a></li>
+        <li><a href="/world-map"><i class="bi bi-map"></i><span class="nav-label">World Map</span></a></li>
+        <li><a href="/leaderboard"><i class="bi bi-trophy"></i><span class="nav-label">Leaderboard</span></a></li>
+        <li><a href="/health-assessment"><i class="bi bi-heart-pulse"></i><span class="nav-label">Health Assessment</span></a></li>
+        <li><a href="/wellness-reassessment"><i class="bi bi-arrow-repeat"></i><span class="nav-label">Wellness Reassessment</span></a>
+        </li>
+        <li><a href="/wellness-analytics"><i class="bi bi-graph-up-arrow"></i><span class="nav-label">Wellness Analytics</span></a></li>
+        <li><a href="/feedback"><i class="bi bi-chat-square-text"></i><span class="nav-label">Feedback</span></a></li>
+        <li><a href="/session-history"><i class="bi bi-clock-history"></i><span class="nav-label">Session History</span></a></li>
+        <li><a href="/profile" class="nav-icon-profile"><i class="bi bi-person-circle"></i><span class="nav-label">Profile</span></a></li>
+      </ul>
+    </div>
+  </nav>
+  <header class="app-topbar">
+    <div class="app-topbar-title">Hello, {{ session.get('username', user.username if user is defined else current_user
+      if current_user is defined else 'Yogi') }} - Welcome to YogGyaan</div>
+      <div class="profile-menu">
+      <div class="topbar-dropdown">
+        <button type="button" class="icon-btn" data-dropdown-trigger aria-haspopup="true" aria-expanded="false" title="Notifications" aria-label="Notifications">
+          <i class="bi bi-bell"></i>
+          <span class="notif-badge">5</span>
+        </button>
+        <div class="dropdown-panel">
+          <div class="dropdown-panel-title">Notifications</div>
+          <div class="notif-list">
+            <div class="notif-item"><i class="bi bi-stars"></i><div><strong>Daily Challenge Available</strong><small>A new challenge is ready for you today</small></div></div>
+            <div class="notif-item"><i class="bi bi-alarm"></i><div><strong>Session Reminder</strong><small>Your scheduled practice window is open</small></div></div>
+            <div class="notif-item"><i class="bi bi-trophy"></i><div><strong>Achievement Unlocked</strong><small>You've earned a new badge</small></div></div>
+            <div class="notif-item"><i class="bi bi-exclamation-triangle"></i><div><strong>Streak Warning</strong><small>Practice today to keep your streak alive</small></div></div>
+            <div class="notif-item"><i class="bi bi-heart-pulse"></i><div><strong>Wellness Recommendation</strong><small>New guidance based on your latest check-in</small></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="topbar-dropdown">
+        <button type="button" class="icon-btn profile-trigger" data-dropdown-trigger aria-haspopup="true" aria-expanded="false" title="Account" aria-label="Account menu">
+          <i class="bi bi-person-circle"></i>
+          <i class="bi bi-chevron-down caret-icon"></i>
+        </button>
+        <div class="dropdown-panel">
+          <a href="/profile" class="dropdown-item"><i class="bi bi-person"></i>Profile</a>
+          <form action="/logout" method="POST" class="dropdown-form">
+            <button type="submit" class="dropdown-item dropdown-item-danger"><i class="bi bi-box-arrow-right"></i>Logout</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="panel">
+      <h1>Wellness Reassessment</h1>
+      <p class="text-muted">Fill this whenever you want to update your wellness journey. Each reassessment is saved
+        separately and compared with your baseline, so your history is never overwritten.</p>
+      <p class="text-green">Add a new check-in anytime after a practice session, weekly review, or whenever your body
+        feels different.</p>
+    </section>
+    <form method="POST" class="panel">
+      <h2>New reassessment</h2>
+      <div class="grid">{% for k,label in [('stress','Stress'),('mood','Mood'),('sleep','Sleep
+        quality'),('flexibility','Flexibility'),('balance','Balance')] %}<div><label for="slider_{{k}}">{{label}}
+            (1-10)</label>
+          <div class="slider-row"><input type="range" min="1" max="10" step="1" value="5" name="{{k}}"
+              id="slider_{{k}}" oninput="document.getElementById('val_{{k}}').textContent=this.value">
+            <span class="slider-value" id="val_{{k}}">5</span></div>
+        </div>{% endfor %}</div><label style="margin-top:.8rem">Notes</label><textarea name="notes"></textarea>
+      <button class="btn btn-primary" type="submit" style="margin-top:.9rem">Save reassessment</button>
+    </form>
+    <section class="panel">
+      <h2>Baseline → Latest trends</h2>{% set latest = reassessments[0] if reassessments else None %}{% for k,label in
+      [('stress','Stress'),('mood','Mood'),('sleep','Sleep'),('flexibility','Flexibility'),('balance','Balance')] %}{%
+      set base = baseline.get('baseline_' ~ k,0) %}{% set now = latest[k] if latest else 0 %}<div class="trend">
+        <b>{{label}}</b>
+        <div class="bar"><span style="width:{{ (now or base or 0) * 10 }}%"></span></div><span>{{ base }} → {{ now if
+          latest else '-' }}</span>
+      </div>{% endfor %}
+    </section>
+    <section class="panel">
+      <h2>Reassessment history</h2>{% if reassessments %}{% for r in reassessments %}<div class="history"><b>{{
+          r.created_at }}</b>
+        <p class="text-muted">Stress {{r.stress}} · Mood {{r.mood}} · Sleep {{r.sleep}} · Flexibility {{r.flexibility}}
+          · Balance {{r.balance}}</p>
+        <p>{{ r.notes or '' }}</p>
+      </div>{% endfor %}{% else %}<p class="text-muted">No reassessments yet.</p>{% endif %}
+    </section>
+  </main>
+</body>
+
+</html>
