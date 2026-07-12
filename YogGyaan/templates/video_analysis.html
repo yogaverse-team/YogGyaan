@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recorded Input Analysis - YogGyaan</title>
+  <link rel="stylesheet" href="/static/css/style.css?v=2" />
+  <style>
+    .video-page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px 18px 48px
+    }
+
+    .mode-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 18px 0
+    }
+
+    .mode-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      text-decoration: none;
+      color: inherit
+    }
+
+    .mode-card.active {
+      border-color: var(--green);
+      box-shadow: 0 0 0 1px rgba(74, 222, 128, .25)
+    }
+
+    .upload-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 18px
+    }
+
+    .upload-card,
+    .report-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px
+    }
+
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: 18px;
+      min-height: 190px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 22px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, .025)
+    }
+
+    .drop-zone.drag {
+      border-color: var(--green);
+      background: rgba(74, 222, 128, .08)
+    }
+
+    .video-preview {
+      width: 100%;
+      max-height: 360px;
+      border-radius: 14px;
+      background: #000;
+      margin-top: 14px;
+      display: none
+    }
+
+    .form-row {
+      margin: 14px 0
+    }
+
+    .form-row label {
+      display: block;
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--text-muted);
+      margin-bottom: 6px
+    }
+
+    .form-row select {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface-2, rgba(255, 255, 255, .04));
+      color: var(--text)
+    }
+
+    .progress-track.big {
+      height: 12px;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 10px
+    }
+
+    .progress-fill.video {
+      width: 0%;
+      height: 100%;
+      transition: width .25s
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px
+    }
+
+    .mini-stat {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px
+    }
+
+    .mini-stat b {
+      display: block;
+      font-size: 1.15rem
+    }
+
+    .timeline-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      padding: 7px 0;
+      font-size: .86rem
+    }
+
+    .chart {
+      height: 170px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-top: 12px;
+      background: rgba(255, 255, 255, .025)
+    }
+
+    @media(max-width:800px) {
+
+      .upload-grid,
+      .mode-row {
+        grid-template-columns: 1fr
+      }
+    }
+  </style>
+  <!-- PWA -->
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="theme-color" content="#1a473f">
+  <link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+  <script src="/static/js/pwa.js" defer></script>
+</head>
+
+<body>
+  <div class="app-shell video-page">
+    <div class="topbar mb-4">
+      <div>
+        <p class="text-xs text-muted">YogGyaan Practice Modes</p>
+        <h1>Recorded Input Analysis</h1>
+      </div>
+      <a href="/dashboard" class="btn btn-ghost">Dashboard</a>
+    </div>
+
+    <div class="mode-row">
+      <a class="mode-card" href="/dashboard"><b>Live Practice</b>
+        <p class="text-sm text-muted">Use existing webcam practice and real-time feedback.</p>
+      </a>
+      <div class="mode-card active"><b>Input Analysis</b>
+        <p class="text-sm text-muted">Upload MP4, MOV, or WEBM and analyze using the same pose pipeline.</p>
+      </div>
+    </div>
+
+    <div class="upload-grid">
+      <div class="upload-card">
+        <h2>Upload input</h2>
+        <p class="text-sm text-muted mb-3">Select a pose, upload your recorded practice video, then start analysis.</p>
+        <input id="videoInput" type="file" accept="video/mp4,video/quicktime,video/webm" hidden />
+        <div id="dropZone" class="drop-zone">
+          <div>
+            <div style="font-size:2rem">🎥</div>
+            <b>Drag & drop the input here</b>
+            <p class="text-sm text-muted">or click to browse file</p>
+          </div>
+        </div>
+        <video id="videoPreview" class="video-preview" controls muted playsinline></video>
+        <canvas id="analysisCanvas" class="chart" style="display:none;width:100%"></canvas>
+
+        <div class="form-row">
+          <label for="poseSelect">Selected Pose</label>
+          <select id="poseSelect">
+            <option value="tree">Tree Pose</option>
+            <option value="warrior">Warrior Pose</option>
+            <option value="padmasana">Lotus Pose</option>
+            <option value="vajrasana">Vajrasana</option>
+            <option value="baddha_konasana">Butterfly Pose</option>
+            <option value="tadasana">Mountain Pose</option>
+            <option value="trikonasana">Triangle Pose</option>
+            <option value="balasana">Balasana (Child Pose)</option>
+            <option value="bhujangasana">Bhujangasana</option>
+            <option value="wall_plank_chaturanga">Wall-Plank Chaturanga</option>
+            <option value="padahastasana">Padahastasana</option>
+          </select>
+        </div>
+        <button id="analyzeBtn" class="btn btn-primary btn-full" disabled>Analyze Video</button>
+        <div class="progress-track big">
+          <div id="analysisProgress" class="progress-fill progress-fill-xp video"></div>
+        </div>
+        <p id="analysisStatus" class="text-sm text-muted mt-2">Waiting for upload...</p>
+      </div>
+
+      <div class="report-card">
+        <h2>Results Report</h2>
+        <div id="emptyReport" class="text-sm text-muted">Analysis results will appear here.</div>
+        <div id="reportWrap" style="display:none">
+          <div class="stats-grid mt-3">
+            <div class="mini-stat"><span class="text-xs text-muted">Average Accuracy</span><b id="avgAccuracy">0%</b>
+            </div>
+            <div class="mini-stat"><span class="text-xs text-muted">Best Accuracy</span><b id="bestAccuracy">0%</b>
+            </div>
+            <div class="mini-stat"><span class="text-xs text-muted">Lowest Accuracy</span><b id="lowAccuracy">0%</b>
+            </div>
+            <div class="mini-stat"><span class="text-xs text-muted">Session Duration</span><b id="durationStat">0s</b>
+            </div>
+            <div class="mini-stat"><span class="text-xs text-muted">Total Hold Time</span><b id="holdStat">0s</b></div>
+            <div class="mini-stat"><span class="text-xs text-muted">XP Earned</span><b id="xpStat">+0</b></div>
+          </div>
+          <h3 class="mt-4">Pose-specific details</h3>
+          <div id="detailBox" class="text-sm text-muted"></div>
+          <h3 class="mt-4">Accuracy vs Time</h3>
+          <canvas id="timelineChart" class="chart"></canvas>
+          <div id="timelineList" class="mt-2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { PoseLandmarker, FilesetResolver, DrawingUtils } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/vision_bundle.mjs";
+    window.MediaPipeVision = { PoseLandmarker, FilesetResolver, DrawingUtils };
+  </script>
+  <script>
+    window.VIDEO_HOLD_POSES = {{ hold_poses | tojson }};
+  </script>
+  <script src="/static/js/pose_utils.js"></script>
+  <script src="/static/js/video_analysis.js"></script>
+<link rel="stylesheet" href="/static/css/responsive-master.css?v=1" />
+</body>
+
+</html>

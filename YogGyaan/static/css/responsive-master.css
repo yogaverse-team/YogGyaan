@@ -1,0 +1,445 @@
+
+html {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.video-wrapper video,
+.video-wrapper canvas,
+.game-world-canvas,
+#gameWorldCanvas {
+  height: 100%;
+  max-width: none;
+}
+
+h1, h2, h3, h4, h5, h6, p, span, a, li, label, button, input, textarea, select {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+@media (max-width: 1200px) {
+
+  .dashboard-page,
+  .page-container,
+  main:not(.world-page):not(.game-main) {
+    width: min(1180px, calc(100vw - var(--sidebar-peek, 62px) - 24px)) !important;
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .map-shell {
+    grid-template-columns: minmax(0, 1fr) 300px;
+  }
+}
+
+@media (max-width: 992px) {
+
+  .dashboard-page,
+  .page-container,
+  main:not(.world-page):not(.game-main) {
+    width: 100% !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .container,
+  .container-lg,
+  .assess-wrap {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .achievement-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .level-goals {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .game-split-layout {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .pose-panel {
+    border-right: none !important;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pose-panel .video-wrapper {
+    aspect-ratio: 4 / 3 !important;
+    flex: none !important;
+    min-height: 320px;
+  }
+
+  .world-panel {
+    min-height: 360px;
+  }
+
+  .game-world-canvas {
+    min-height: 300px;
+  }
+
+  .tutorial-split,
+  #tp-split {
+    grid-template-columns: 1fr !important;
+  }
+
+  #tp-video-wrap {
+    aspect-ratio: 4 / 3 !important;
+    height: auto !important;
+    min-height: 300px;
+  }
+}
+
+
+@media (max-width: 768px) {
+
+  html, body {
+    font-size: 15px;
+  }
+
+  .navbar {
+    width: 56px !important;
+    min-width: 56px !important;
+  }
+
+  body,
+  .app-topbar {
+    padding-left: 56px !important;
+  }
+
+  .app-topbar {
+    left: 56px !important;
+    padding: 0 0.85rem !important;
+  }
+
+  .app-topbar-title {
+    font-size: 1rem !important;
+    padding-right: 90px !important;
+  }
+
+  
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .achievement-grid,
+  .level-goals {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+
+  .container {
+    max-width: 100%;
+  }
+
+  .container-lg {
+    max-width: 100%;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px; 
+  }
+
+  .btn {
+    min-height: 44px;
+    padding: 0.65rem 1.1rem;
+  }
+
+  .game-top-actions .btn {
+    min-height: 32px;
+  }
+
+  .map-shell {
+    grid-template-columns: 1fr !important;
+  }
+
+  .side-panel {
+    min-height: auto !important;
+  }
+
+  .world-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  .world-stats {
+    flex-wrap: wrap;
+  }
+
+  .rank-row {
+    padding: 0.75rem;
+    gap: 0.65rem;
+  }
+
+  .top3 {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  table {
+    font-size: 0.85rem;
+  }
+
+  .dummy-stage {
+    max-width: 220px;
+    margin: 0 auto;
+  }
+
+  .rep-panel,
+  .hold-panel {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .pose-stats-row {
+    gap: 0.35rem;
+  }
+}
+
+@media (max-width: 576px) {
+
+  .app-topbar-title {
+    font-size: 0.92rem !important;
+    padding-right: 70px !important;
+  }
+
+  .app-topbar-title span {
+    font-size: 0.62rem !important;
+  }
+
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.25rem; }
+  h3 { font-size: 1.1rem; }
+
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .achievement-grid,
+  .level-goals {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .practice-action-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .practice-action-row .btn {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .pose-stats-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .rep-count-wrap,
+  .hold-timer-wrap {
+    min-width: 40px;
+  }
+
+  .world-pill {
+    font-size: 0.78rem;
+  }
+
+  .region-node {
+    width: 96px !important;
+    min-height: 92px !important;
+  }
+
+  .map-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .dropdown-panel {
+    right: -0.5rem !important;
+    left: auto !important;
+    max-width: calc(100vw - 1rem);
+  }
+
+  .navbar-nav a .nav-label,
+  .navbar-brand .nav-label {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+
+  html, body {
+    font-size: 14px;
+  }
+
+  .navbar {
+    width: 50px !important;
+    min-width: 50px !important;
+  }
+
+  body,
+  .app-topbar {
+    padding-left: 50px !important;
+  }
+
+  .app-topbar {
+    left: 50px !important;
+    height: 56px !important;
+    padding: 0 0.6rem !important;
+  }
+
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .achievement-grid,
+  .level-goals {
+    grid-template-columns: 1fr;
+  }
+
+  .container,
+  .container-lg,
+  .assess-wrap,
+  .dashboard-page,
+  .page-container {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  .btn {
+    font-size: 0.85rem;
+    padding: 0.6rem 0.9rem;
+  }
+
+  .pose-panel .video-wrapper {
+    min-height: 260px;
+  }
+
+  .pose-stats-row {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.3rem;
+  }
+
+  .pose-stat {
+    padding: 0.35rem 0.3rem;
+  }
+
+  .pose-stat-value {
+    font-size: 0.9rem;
+  }
+
+  .world-panel {
+    min-height: 300px;
+  }
+
+  .region-node {
+    width: 84px !important;
+    min-height: 80px !important;
+    padding: 0.45rem !important;
+  }
+
+  .map-stage {
+    min-height: 640px !important;
+  }
+
+  .achievement-card {
+    font-size: 1rem;
+    padding: 0.85rem;
+  }
+
+  .dropdown-panel {
+    max-width: calc(100vw - 0.75rem);
+  }
+}
+
+
+@media (max-width: 992px) and (orientation: landscape) {
+
+  .game-split-layout {
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: none;
+  }
+
+  .pose-panel {
+    border-right: 1px solid var(--border) !important;
+    border-bottom: none !important;
+  }
+
+  .pose-panel .video-wrapper {
+    aspect-ratio: unset !important;
+    min-height: 0;
+    flex: 1 1 auto;
+  }
+
+  #tp-split {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  #tp-video-wrap {
+    aspect-ratio: unset !important;
+    height: 100% !important;
+    min-height: 0;
+  }
+}
+
+@media (max-height: 480px) and (orientation: landscape) {
+
+  .app-topbar,
+  .game-page .game-topbar {
+    height: 44px !important;
+    min-height: 44px !important;
+  }
+
+  .game-page {
+    padding-top: 44px !important;
+  }
+
+  .pose-stats-row,
+  .practice-action-row,
+  .world-hud {
+    display: none;
+  }
+
+  .rep-panel,
+  .hold-panel {
+    padding: 0.4rem 0.6rem;
+    margin-top: 0.3rem;
+  }
+}
+
+@media (pointer: coarse) {
+  .icon-btn,
+  .map-tool,
+  .navbar-nav a,
+  .btn {
+    min-height: 40px;
+  }
+}
