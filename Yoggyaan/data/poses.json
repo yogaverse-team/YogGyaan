@@ -1,0 +1,781 @@
+{
+  "tree": {
+    "name": "Tree Pose",
+    "sanskrit": "Vrksasana",
+    "region": "Forest",
+    "region_key": "forest",
+    "color": "#4ade80",
+    "difficulty": "Beginner",
+    "pose_type": "rep",
+    "description": "Stand rooted like an ancient tree. Balance on one foot while the other presses into your inner thigh. Raise your arms like branches reaching toward the sky to restore the Sacred Forest.",
+    "benefits": [
+      "Improves balance and stability",
+      "Strengthens thighs, calves and ankles",
+      "Stretches the groin and inner thighs",
+      "Builds focus and mental clarity"
+    ],
+    "level_names": [
+      "Grow a sapling",
+      "Survive the wind",
+      "Bloom flowers and fruits",
+      "Restore the Sacred Tree"
+    ],
+    "level_thresholds_seconds": [
+      5,
+      10,
+      15,
+      20
+    ],
+    "key_landmarks": [
+      "arms_overhead",
+      "one_knee_bent",
+      "standing_leg_straight"
+    ],
+    "tutorial_steps": [
+      "Start in Tadasana.",
+      "Shift your weight onto one foot.",
+      "Lift the other foot and press its sole against your inner calf or inner thigh - never directly on the knee.",
+      "Raise both arms overhead with palms touching.",
+      "Gaze at a fixed point and hold your balance."
+    ],
+    "correction_hints": {
+      "arms_not_raised": "Lift both arms straight above your head.",
+      "knee_not_bent": "Lift your foot higher and press it to your inner thigh.",
+      "wobbling": "Fix your gaze on a still point in front of you."
+    },
+    "accuracy_guide_steps": [
+      "Start in Tadasana.",
+      "Shift your weight onto one foot.",
+      "Lift the other foot and press its sole against your inner calf or inner thigh - never directly on the knee.",
+      "Raise both arms overhead with palms touching.",
+      "Gaze at a fixed point and hold your balance."
+    ]
+  },
+  "warrior": {
+    "name": "Warrior Pose",
+    "sanskrit": "Virabhadrasana II",
+    "region": "Village",
+    "region_key": "village",
+    "color": "#facc15",
+    "difficulty": "Intermediate",
+    "pose_type": "hold",
+    "description": "Stand as a guardian of the village. Wide stance, bent knee, arms reaching out to both sides - defend Lotus Haven from stress and chaos with the strength of a warrior.",
+    "benefits": [
+      "Strengthens legs, glutes and core",
+      "Opens hips and chest",
+      "Builds stamina and focus",
+      "Improves coordination"
+    ],
+    "level_names": [
+      "Activate village shield",
+      "Defend stress clouds",
+      "Stop distraction spirits",
+      "Complete the final defense"
+    ],
+    "level_thresholds_seconds": [
+      5,
+      10,
+      15,
+      20
+    ],
+    "key_landmarks": [
+      "front_knee_90",
+      "arms_horizontal",
+      "wide_stance"
+    ],
+    "tutorial_steps": [
+      "Step one foot forward into a wide lunge.",
+      "Bend your front knee to roughly 90 - so your thigh is parallel to the floor.",
+      "Keep the back leg straight and strong.",
+      "Extend both arms at shoulder height for Warrior II, or raise them overhead for Warrior I.",
+      "Keep torso upright and core engaged."
+    ],
+    "correction_hints": {
+      "knee_not_bent": "Bend your front knee deeper until the thigh is parallel to the ground.",
+      "arms_not_extended": "Reach both arms strongly to the sides at shoulder height.",
+      "stance_too_narrow": "Widen your stance - step your feet further apart."
+    },
+    "accuracy_guide_steps": [
+      "Step one foot forward into a wide lunge.",
+      "Bend your front knee to roughly 90 - so your thigh is parallel to the floor.",
+      "Keep the back leg straight and strong.",
+      "Extend both arms at shoulder height for Warrior II, or raise them overhead for Warrior I.",
+      "Keep torso upright and core engaged."
+    ]
+  },
+  "padmasana": {
+    "name": "Lotus Pose",
+    "sanskrit": "Padmasana",
+    "region": "Lotus Lake",
+    "region_key": "lotus",
+    "color": "#f472b6",
+    "difficulty": "Advanced",
+    "pose_type": "hold",
+    "description": "Sit in sacred stillness. Cross your legs with feet resting on opposite thighs, spine tall, hands resting gently on your knees. Through meditation and stillness, restore the sacred lotus lake.",
+    "benefits": [
+      "Deepens meditation and focus",
+      "Opens hips and groin",
+      "Lengthens the spine",
+      "Calms the nervous system"
+    ],
+    "level_names": [
+      "Calm Waters",
+      "Lotus Bud Appears",
+      "Blooming Lotus",
+      "Sacred Lotus Awakens"
+    ],
+    "level_thresholds_seconds": [
+      10,
+      20,
+      30,
+      45
+    ],
+    "key_landmarks": [
+      "knees_spread_wide",
+      "torso_upright",
+      "feet_elevated"
+    ],
+    "tutorial_steps": [
+      "Sit on the floor with your spine tall.",
+      "Bend your right knee and place your right foot on your left thigh, sole facing up.",
+      "Bend your left knee and carefully place your left foot on your right thigh.",
+      "Rest your hands on your knees and keep your spine tall.",
+      "Do not force the pose if your knees protest."
+    ],
+    "correction_hints": {
+      "knees_not_spread": "Let both knees open wide and relax toward the floor.",
+      "spine_not_tall": "Lengthen your spine - imagine a string pulling the crown of your head up.",
+      "feet_not_placed": "Gently guide each foot onto the opposite thigh."
+    },
+    "accuracy_guide_steps": [
+      "Sit on the floor with your spine tall.",
+      "Bend your right knee and place your right foot on your left thigh, sole facing up.",
+      "Bend your left knee and carefully place your left foot on your right thigh.",
+      "Rest your hands on your knees and keep your spine tall.",
+      "Do not force the pose if your knees protest."
+    ]
+  },
+  "vajrasana": {
+    "name": "Thunderbolt Pose",
+    "sanskrit": "Vajrasana",
+    "region": "Rain Temple",
+    "region_key": "temple",
+    "color": "#60a5fa",
+    "difficulty": "Beginner",
+    "pose_type": "hold",
+    "description": "Kneel with your spine perfectly upright like a thunderbolt. Sit on your heels with hands on your thighs. Summon the sacred rains through your steady, grounded stillness to restore the ancient Rain Temple.",
+    "benefits": [
+      "Improves digestion and posture",
+      "Strengthens the lower back",
+      "Calms the mind",
+      "Grounds energy downward"
+    ],
+    "level_names": [
+      "Summon Clouds",
+      "Call the Thunder",
+      "Open the Rain Gates",
+      "Healing Monsoon"
+    ],
+    "level_thresholds_seconds": [
+      10,
+      20,
+      30,
+      45
+    ],
+    "key_landmarks": [
+      "knees_together",
+      "torso_upright",
+      "arms_at_sides"
+    ],
+    "tutorial_steps": [
+      "Kneel on the floor.",
+      "Sit back onto your heels with your shins flat on the ground and feet pointing back.",
+      "Sit tall with your spine straight.",
+      "Rest your hands on your thighs.",
+      "Keep your feet together and breathe steadily."
+    ],
+    "correction_hints": {
+      "knees_apart": "Bring your knees together and sit evenly on both heels.",
+      "spine_curved": "Straighten your back - lengthen upward through the crown of your head.",
+      "arms_raised": "Lower your hands to rest gently on your thighs."
+    },
+    "accuracy_guide_steps": [
+      "Kneel on the floor.",
+      "Sit back onto your heels with your shins flat on the ground and feet pointing back.",
+      "Sit tall with your spine straight.",
+      "Rest your hands on your thighs.",
+      "Keep your feet together and breathe steadily."
+    ]
+  },
+  "baddha_konasana": {
+    "name": "Butterfly Pose",
+    "sanskrit": "Baddha Konasana",
+    "region": "Butterfly Garden",
+    "region_key": "butterfly",
+    "color": "#a78bfa",
+    "difficulty": "Beginner",
+    "pose_type": "hold",
+    "description": "Sit with the soles of your feet pressed together and your knees wide like butterfly wings. Hold open and breathe, bringing life back to the enchanted butterfly sanctuary.",
+    "benefits": [
+      "Opens inner thighs and groin",
+      "Relieves tension in lower back",
+      "Stimulates abdominal organs",
+      "Promotes hip flexibility"
+    ],
+    "level_names": [
+      "Plant Wildflowers",
+      "Garden Blooms",
+      "Butterflies Return",
+      "Enchanted Butterfly Sanctuary"
+    ],
+    "level_thresholds_seconds": [
+      10,
+      20,
+      30,
+      45
+    ],
+    "key_landmarks": [
+      "knees_wide",
+      "feet_together",
+      "torso_upright"
+    ],
+    "tutorial_steps": [
+      "Sit on the floor with your spine tall.",
+      "Bend both knees and bring the soles of your feet together in front of you.",
+      "Let your knees fall out wide like butterfly wings.",
+      "Hold your feet with your hands.",
+      "Gently press your knees toward the floor without forcing them; stay upright."
+    ],
+    "correction_hints": {
+      "knees_not_wide": "Let both knees fall further out to the sides - relax your hips.",
+      "feet_apart": "Bring the soles of your feet together and hold them with your hands.",
+      "spine_rounded": "Sit tall - lengthen your spine upward with each inhale."
+    },
+    "accuracy_guide_steps": [
+      "Sit on the floor with your spine tall.",
+      "Bend both knees and bring the soles of your feet together in front of you.",
+      "Let your knees fall out wide like butterfly wings.",
+      "Hold your feet with your hands.",
+      "Gently press your knees toward the floor without forcing them; stay upright."
+    ]
+  },
+  "tadasana": {
+    "name": "Mountain Pose",
+    "sanskrit": "Tadasana",
+    "region": "Cloud Peak",
+    "region_key": "cloud_peak",
+    "color": "#93c5fd",
+    "difficulty": "Beginner",
+    "pose_type": "rep",
+    "description": "Stand tall and steady like the sacred Cloud Peak. Through Tadasana, restore balance between earth and sky, clear the mist, rebuild floating cloud pathways, and awaken the glowing summit of Lotus Haven.",
+    "benefits": [
+      "Improves posture and alignment",
+      "Builds body awareness and balance",
+      "Strengthens thighs, ankles and core",
+      "Calms breathing and improves focus"
+    ],
+    "level_names": [
+      "Calm the Mist",
+      "Restore the Cloud Path",
+      "Reach the Sky Gate",
+      "Awaken the Cloud Peak"
+    ],
+    "visual_progression": [
+      "Hidden Mountain",
+      "Fog Clears",
+      "Cloud Paths Form",
+      "Floating Bridges Appear",
+      "Sky Gate Emerges",
+      "Glowing Summit",
+      "Cloud Peak Restored"
+    ],
+    "level_thresholds_seconds": [
+      5,
+      10,
+      15,
+      20
+    ],
+    "key_landmarks": [
+      "feet_grounded",
+      "spine_tall",
+      "arms_aligned",
+      "shoulders_level"
+    ],
+    "tutorial_steps": [
+      "Stand with feet hip-width apart, arms at your sides.",
+      "Press all four corners of your feet into the ground.",
+      "Straighten your legs without locking your knees and lengthen your spine upward.",
+      "Relax your shoulders down and back; keep head centered and chin parallel to the floor.",
+      "Breathe and stand tall."
+    ],
+    "correction_hints": {
+      "feet_unsteady": "Ground both feet evenly and avoid leaning to one side.",
+      "spine_not_tall": "Lift your chest and lengthen through the crown of your head.",
+      "arms_not_aligned": "Keep your arms straight and balanced.",
+      "shoulders_not_level": "Relax and level both shoulders."
+    },
+    "theme": {
+      "title": "Cloud Peak Restoration",
+      "levels": [
+        "Dense fog begins to clear and mountain foothills become visible.",
+        "Floating cloud bridges begin forming around the mountain.",
+        "Clouds part and an ancient Sky Gate appears.",
+        "The summit glows with ancient energy and the cloud network is fully restored."
+      ],
+      "long_term": [
+        "5 sessions : Mist Cleared",
+        "10 sessions : Cloud Bridges Restored",
+        "20 sessions : Sky Gate Activated",
+        "30 sessions : Cloud Peak Fully Awakened"
+      ]
+    },
+    "achievements": [
+      "Cloud Walker",
+      "Mist Breaker",
+      "Sky Pathfinder",
+      "Guardian of the Peak"
+    ],
+    "accuracy_guide_steps": [
+      "Stand with feet hip-width apart, arms at your sides.",
+      "Press all four corners of your feet into the ground.",
+      "Straighten your legs without locking your knees and lengthen your spine upward.",
+      "Relax your shoulders down and back; keep head centered and chin parallel to the floor.",
+      "Breathe and stand tall."
+    ]
+  },
+  "trikonasana": {
+    "name": "Triangle Pose",
+    "sanskrit": "Trikonasana",
+    "region": "Prism Valley",
+    "region_key": "prism_valley",
+    "color": "#38bdf8",
+    "difficulty": "Intermediate",
+    "pose_type": "rep",
+    "description": "Extend into Triangle Pose to restore Prism Valley, awaken crystal paths, and bring rainbow light back to Lotus Haven.",
+    "benefits": [
+      "Stretches hamstrings, hips and spine",
+      "Opens chest and shoulders",
+      "Improves balance and body awareness",
+      "Builds stability through the legs"
+    ],
+    "level_names": [
+      "Discover the Crystal Path",
+      "Restore the Prism Towers",
+      "Reignite the Rainbow Beams",
+      "Prism Valley Restored"
+    ],
+    "level_thresholds_seconds": [
+      5,
+      10,
+      15,
+      20
+    ],
+    "key_landmarks": [
+      "wide_stance",
+      "arms_open",
+      "side_bend",
+      "legs_straight"
+    ],
+    "tutorial_steps": [
+      "Stand with feet wide apart, about 3 feet.",
+      "Turn your right foot out 90 degree.",
+      "Reach your right hand down toward your right ankle or shin while your left arm extends straight up.",
+      "Keep both legs straight and active.",
+      "Open your chest toward the ceiling; do not let it collapse forward. Switch sides."
+    ],
+    "correction_hints": {
+      "stance_too_narrow": "Step your feet wider to create a strong triangle base.",
+      "arms_not_open": "Extend both arms in one long vertical line.",
+      "knees_bent": "Keep both legs straighter and active.",
+      "torso_not_open": "Open the chest sideways instead of collapsing forward."
+    },
+    "achievements": [
+      "Prism Explorer",
+      "Rainbow Keeper",
+      "Crystal Guardian",
+      "Master of Light"
+    ],
+    "accuracy_guide_steps": [
+      "Stand with feet wide apart, about 3 feet.",
+      "Turn your right foot out 90 degree.",
+      "Reach your right hand down toward your right ankle or shin while your left arm extends straight up.",
+      "Keep both legs straight and active.",
+      "Open your chest toward the ceiling; do not let it collapse forward. Switch sides."
+    ]
+  },
+  "setu_bandhasana": {
+    "name": "Bridge Pose",
+    "sanskrit": "Setu Bandhasana",
+    "region": "Kingdoms United",
+    "region_key": "kingdoms",
+    "color": "#fb923c",
+    "difficulty": "Beginner",
+    "pose_type": "rep",
+    "description": "Lift into Bridge Pose to rebuild roads and bridges, reconnect settlements, and restore prosperity across Lotus Haven.",
+    "benefits": [
+      "Strengthens glutes and back",
+      "Opens chest and hip flexors",
+      "Improves spinal mobility",
+      "Builds lower-body stability"
+    ],
+    "level_names": [
+      "Reconnect the Village",
+      "Restore the Trading Route",
+      "Unite the Settlements",
+      "Kingdom Alliance Restored"
+    ],
+    "level_thresholds_seconds": [
+      5,
+      10,
+      15,
+      20
+    ],
+    "key_landmarks": [
+      "hips_lifted",
+      "knees_bent",
+      "shoulders_grounded",
+      "feet_grounded"
+    ],
+    "tutorial_steps": [
+      "Lie on your back with knees bent.",
+      "Place feet flat on the floor hip-width apart and close to your hips.",
+      "Press your feet down and slowly lift your hips toward the ceiling, squeezing your glutes.",
+      "Keep arms flat on the floor at your sides.",
+      "Hold at the top and keep your knees from splaying outward."
+    ],
+    "correction_hints": {
+      "hips_low": "Lift your hips higher to form the bridge.",
+      "knees_not_bent": "Keep knees bent and feet under knees.",
+      "feet_unsteady": "Ground both feet evenly.",
+      "shoulders_unstable": "Keep shoulders grounded and chest open."
+    },
+    "achievements": [
+      "Bridge Builder",
+      "Pathfinder",
+      "Trade Master",
+      "Kingdom Unifier"
+    ],
+    "accuracy_guide_steps": [
+      "Lie on your back with knees bent.",
+      "Place feet flat on the floor hip-width apart and close to your hips.",
+      "Press your feet down and slowly lift your hips toward the ceiling, squeezing your glutes.",
+      "Keep arms flat on the floor at your sides.",
+      "Hold at the top and keep your knees from splaying outward."
+    ]
+  },
+  "bhujangasana": {
+    "name": "Bhujangasana",
+    "sanskrit": "Bhujangasana",
+    "region": "Lost Jungle Temple",
+    "region_key": "jungle_temple",
+    "color": "#22c55e",
+    "difficulty": "Intermediate",
+    "pose_type": "hold",
+    "description": "Lift the chest like a cobra to awaken the ancient Serpent Temple hidden inside dense jungle ruins.",
+    "benefits": [
+      "Strengthens spine and back muscles",
+      "Opens chest and shoulders",
+      "Improves posture",
+      "Supports gentle spinal mobility"
+    ],
+    "level_names": [
+      "Forgotten Ruins",
+      "Jungle Awakens",
+      "Sacred Life Returns",
+      "Temple Restored"
+    ],
+    "level_thresholds_seconds": [
+      5,
+      7,
+      10,
+      12
+    ],
+    "key_landmarks": [
+      "chest_lifted",
+      "hips_grounded",
+      "elbows_near_body",
+      "shoulders_open"
+    ],
+    "tutorial_steps": [
+      "Lie face-down on the floor with legs together.",
+      "Place palms flat under your shoulders.",
+      "Press into your hands and slowly lift your chest off the ground.",
+      "Keep your hips and legs on the floor; elbows can stay slightly bent.",
+      "Roll your shoulders back, open your chest, and look slightly upward."
+    ],
+    "correction_hints": {
+      "chest_low": "Lift your chest gently upward.",
+      "hips_lifted": "Keep hips and legs grounded.",
+      "shoulders_tense": "Relax shoulders away from ears."
+    },
+    "accuracy_guide_steps": [
+      "Lie face-down on the floor with legs together.",
+      "Place palms flat under your shoulders.",
+      "Press into your hands and slowly lift your chest off the ground.",
+      "Keep your hips and legs on the floor; elbows can stay slightly bent.",
+      "Roll your shoulders back, open your chest, and look slightly upward."
+    ]
+  },
+  "wall_plank_chaturanga": {
+    "name": "Wall-Plank Chaturanga",
+    "sanskrit": "Wall-Plank Chaturanga",
+    "region": "Sacred Samurai Dojo",
+    "region_key": "samurai_dojo",
+    "color": "#f97316",
+    "difficulty": "Intermediate",
+    "pose_type": "hold",
+    "description": "Hold a safe wall-plank position with steady accuracy to restore the ancient Japanese mountain dojo.",
+    "benefits": [
+      "Builds upper-body strength",
+      "Improves shoulder stability",
+      "Strengthens core",
+      "Safer alternative to floor chaturanga"
+    ],
+    "level_names": [
+      "Broken Gates",
+      "Bamboo Groves Return",
+      "Cherry Blossom Dojo",
+      "Grand Dojo Completed"
+    ],
+    "level_thresholds_seconds": [
+      2,
+      4,
+      6,
+      8
+    ],
+    "key_landmarks": [
+      "straight_body_line",
+      "arms_supporting",
+      "shoulders_stable",
+      "controlled_elbows"
+    ],
+    "tutorial_steps": [
+      "Stand facing a wall, about arm's length away.",
+      "Place both palms flat on the wall at shoulder height.",
+      "Step back slightly so your body forms a diagonal line from head to heels.",
+      "Hold the wall-plank position with straight body alignment.",
+      "Keep breathing and stay steady until the hold timer completes."
+    ],
+    "correction_hints": {
+      "body_sag": "Keep body in one straight line from head to heels.",
+      "elbows_flared": "Keep arms stable and shoulders controlled while holding.",
+      "hands_wrong": "Place palms at shoulder height and keep contact with the wall."
+    },
+    "accuracy_guide_steps": [
+      "Stand facing a wall, about arm's length away.",
+      "Place both palms flat on the wall at shoulder height.",
+      "Step back slightly so your body forms a diagonal line from head to heels.",
+      "Hold the wall-plank position with straight body alignment.",
+      "Keep breathing and stay steady until the hold timer completes."
+    ]
+  },
+  "padahastasana": {
+    "name": "Padahastasana",
+    "sanskrit": "Padahastasana",
+    "region": "Sacred Autumn Valley",
+    "region_key": "autumn_valley",
+    "color": "#f59e0b",
+    "difficulty": "Intermediate",
+    "pose_type": "hold",
+    "description": "Fold forward with calm breath to restore the golden maple valley and flowing autumn streams.",
+    "benefits": [
+      "Stretches hamstrings and calves",
+      "Improves spinal flexibility",
+      "Relieves back stiffness",
+      "Calms the nervous system"
+    ],
+    "level_names": [
+      "Dry Trees",
+      "Autumn Stream",
+      "Forest Wildlife Returns",
+      "Golden Valley Restored"
+    ],
+    "level_thresholds_seconds": [
+      5,
+      7,
+      10,
+      12
+    ],
+    "key_landmarks": [
+      "forward_fold",
+      "hands_near_feet",
+      "legs_long",
+      "head_down"
+    ],
+    "tutorial_steps": [
+      "Stand tall.",
+      "Exhale and hinge forward from your hips, not your waist.",
+      "Let your torso fold down toward your legs.",
+      "Let your arms and hands hang down toward your feet or the floor.",
+      "Keep legs straight without locking the knees hard; relax your neck completely and let your head hang heavy."
+    ],
+    "correction_hints": {
+      "fold_not_deep": "Fold further from the hips.",
+      "knees_locked": "Keep knees soft if needed.",
+      "head_up": "Relax your head and neck downward."
+    },
+    "accuracy_guide_steps": [
+      "Stand tall.",
+      "Exhale and hinge forward from your hips, not your waist.",
+      "Let your torso fold down toward your legs.",
+      "Let your arms and hands hang down toward your feet or the floor.",
+      "Keep legs straight without locking the knees hard; relax your neck completely and let your head hang heavy."
+    ]
+  },
+  "paschimottanasana": {
+    "name": "Paschimottanasana",
+    "sanskrit": "Paschimottanasana",
+    "region": "Forgotten Puppet Kingdom",
+    "region_key": "puppet_kingdom",
+    "color": "#c084fc",
+    "difficulty": "Intermediate",
+    "pose_type": "hold",
+    "description": "Sit and fold forward with calm breath to restore the Grand Clockwork Theater of the Forgotten Puppet Kingdom.",
+    "benefits": [
+      "Stretches the back body and hamstrings",
+      "Calms the nervous system",
+      "Improves spinal mobility",
+      "Supports relaxation and focus"
+    ],
+    "level_names": [
+      "Silent Stage",
+      "Music Returns",
+      "Marionette Festival",
+      "Endless Performance"
+    ],
+    "level_thresholds_seconds": [
+      5,
+      7,
+      10,
+      12
+    ],
+    "key_landmarks": [
+      "seated_forward_fold",
+      "spine_length",
+      "hands_toward_feet"
+    ],
+    "tutorial_steps": [
+      "Sit on the floor with both legs extended straight in front of you.",
+      "Keep your spine tall.",
+      "Inhale to lengthen, then exhale and fold your torso forward over your legs.",
+      "Keep your back as long as possible rather than rounding sharply.",
+      "Reach hands toward your feet, ankles, or shins - wherever you reach comfortably."
+    ],
+    "correction_hints": {
+      "not_folded": "Fold forward gently from the hips.",
+      "spine_rounding": "Lengthen your spine before deepening the fold.",
+      "knees_unstable": "Keep legs steady and relaxed."
+    },
+    "accuracy_guide_steps": [
+      "Sit on the floor with both legs extended straight in front of you.",
+      "Keep your spine tall.",
+      "Inhale to lengthen, then exhale and fold your torso forward over your legs.",
+      "Keep your back as long as possible rather than rounding sharply.",
+      "Reach hands toward your feet, ankles, or shins wherever you reach comfortably."
+    ]
+  },
+  "paschim_namaskarasana": {
+    "name": "Paschim Namaskarasana",
+    "sanskrit": "Paschim Namaskarasana",
+    "region": "Royal Peacock Garden",
+    "region_key": "peacock_garden",
+    "color": "#14b8a6",
+    "difficulty": "Intermediate",
+    "pose_type": "hold",
+    "description": "Stand tall with reverse prayer hands behind the back to restore the Peacock Palace and royal gardens.",
+    "benefits": [
+      "Opens shoulders and chest",
+      "Improves posture",
+      "Builds upper-back mobility",
+      "Encourages graceful breathing"
+    ],
+    "level_names": [
+      "Dry Gardens",
+      "Roses Bloom",
+      "Peacock Garden Awakens",
+      "Crystal Fountains Activate"
+    ],
+    "level_thresholds_seconds": [
+      5,
+      7,
+      10,
+      12
+    ],
+    "key_landmarks": [
+      "hands_behind_back",
+      "shoulders_open",
+      "torso_upright"
+    ],
+    "tutorial_steps": [
+      "Stand or sit tall.",
+      "Swing both arms behind your back.",
+      "Try to bring your palms together between your shoulder blades, fingers pointing upward.",
+      "Open your chest forward and roll your shoulders back.",
+      "If your palms cannot meet, hold your elbows or wrists behind you."
+    ],
+    "correction_hints": {
+      "hands_not_back": "Move both hands behind the back.",
+      "torso_not_upright": "Stand tall with chest open.",
+      "shoulders_closed": "Roll shoulders gently back."
+    },
+    "accuracy_guide_steps": [
+      "Stand or sit tall.",
+      "Swing both arms behind your back.",
+      "Try to bring your palms together between your shoulder blades, fingers pointing upward.",
+      "Open your chest forward and roll your shoulders back.",
+      "If your palms cannot meet, hold your elbows or wrists behind you."
+    ]
+  },
+  "pranayama": {
+    "name": "Pranayama",
+    "sanskrit": "Pranayama",
+    "region": "Inner Prana Nexus",
+    "region_key": "prana_nexus",
+    "color": "#818cf8",
+    "difficulty": "Beginner",
+    "pose_type": "hold",
+    "description": "Practice calm breath awareness to awaken the Inner Prana Nexus, a cosmic body of stars and energy.",
+    "benefits": [
+      "Supports calmness and focus",
+      "Improves breath awareness",
+      "Reduces stress",
+      "Encourages mindful posture"
+    ],
+    "level_names": [
+      "Dormant Self",
+      "Energy Flow",
+      "Inner Harmony",
+      "Prana Ascension"
+    ],
+    "level_thresholds_seconds": [
+      5,
+      7,
+      10,
+      12
+    ],
+    "key_landmarks": [
+      "upright_seat",
+      "steady_shoulders",
+      "calm_breath"
+    ],
+    "tutorial_steps": [
+      "Sit comfortably : cross-legged on the floor or in a chair.",
+      "Keep spine tall, shoulders relaxed and level.",
+      "Close your eyes.",
+      "Breathe in slowly through your nose for 4 counts, hold for 2.",
+      "Exhale through your nose for 6 counts and keep repeating the pattern."
+    ],
+    "correction_hints": {
+      "not_upright": "Sit tall with relaxed shoulders.",
+      "too_much_movement": "Stay steady and breathe slowly.",
+      "camera_not_clear": "Keep upper body visible to the camera."
+    },
+    "accuracy_guide_steps": [
+      "Sit comfortably : cross-legged on the floor or in a chair.",
+      "Keep spine tall, shoulders relaxed and level.",
+      "Close your eyes.",
+      "Breathe in slowly through your nose for 4 counts, hold for 2.",
+      "Exhale through your nose for 6 counts and keep repeating the pattern."
+    ]
+  }
+}
