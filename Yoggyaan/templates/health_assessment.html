@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Health Assessment - YogGyaan</title>
+  <link rel="stylesheet" href="/static/css/style.css?v=2">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    .assess-wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 4rem
+    }
+
+    .assess-hero,
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 1.25rem;
+      margin-bottom: 1.05rem;
+      box-shadow: 0 14px 38px rgba(0, 0, 0, .14)
+    }
+
+    .assess-hero {
+      position: relative;
+      overflow: hidden
+    }
+
+    .assess-hero:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 10% 10%, rgba(74, 222, 128, .12), transparent 32%), radial-gradient(circle at 85% 25%, rgba(250, 204, 21, .10), transparent 28%);
+      pointer-events: none
+    }
+
+    .assess-hero>* {
+      position: relative
+    }
+
+    .assess-hero h1 {
+      margin-bottom: .45rem
+    }
+
+    .assess-hero p {
+      max-width: 850px
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: .8rem;
+      margin-top: 1.1rem
+    }
+
+    .overview-card {
+      background: rgba(255, 255, 255, .045);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: .85rem;
+      min-width: 0
+    }
+
+    .overview-value {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--green);
+      line-height: 1;
+      overflow-wrap: anywhere
+    }
+
+    .overview-label {
+      font-size: .68rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-top: .42rem;
+      line-height: 1.25
+    }
+
+    .progress-shell {
+      height: 8px;
+      background: rgba(255, 255, 255, .08);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-top: 1rem
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--green), var(--gold));
+      transition: .25s
+    }
+
+    .section-tabs {
+      position: sticky;
+      top: .75rem;
+      z-index: 20;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(112px, 1fr));
+      gap: .75rem;
+      margin: 1rem 0 1.15rem;
+      padding: .75rem;
+      background: rgba(6, 10, 16, .9);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 14px 36px rgba(0, 0, 0, .22);
+      overflow: visible
+    }
+
+    .step-dot {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, .04);
+      border-radius: 14px;
+      padding: .72rem .9rem;
+      min-height: 46px;
+      font-size: .84rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      white-space: nowrap;
+      line-height: 1.15;
+      font-weight: 700
+    }
+
+    .step-dot:hover {
+      color: var(--text);
+      border-color: rgba(74, 222, 128, .35);
+      transform: translateY(-1px)
+    }
+
+    .step-dot.active {
+      background: linear-gradient(135deg, rgba(74, 222, 128, .18), rgba(250, 204, 21, .08));
+      color: var(--green);
+      border-color: rgba(74, 222, 128, .55);
+      box-shadow: 0 0 0 3px rgba(74, 222, 128, .08)
+    }
+
+    .form-step {
+      display: none;
+      animation: fadeSlide .18s ease
+    }
+
+    .form-step.active {
+      display: block
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: .75;
+        transform: translateY(4px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .panel h2 {
+      margin-bottom: 1rem
+    }
+
+    .panel h3 {
+      margin-bottom: .4rem
+    }
+
+    .field-group {
+      background: rgba(255, 255, 255, .025);
+      border: 1px solid rgba(255, 255, 255, .06);
+      border-radius: 16px;
+      padding: 1rem;
+      margin-top: 1rem
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.05rem 1.15rem
+    }
+
+    .grid>div {
+      min-width: 0
+    }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: .75rem;
+      margin-top: .55rem
+    }
+
+    label {
+      font-size: .8rem;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: .42rem;
+      font-weight: 700;
+      letter-spacing: .01em
+    }
+
+    select,
+    input[type=text],
+    input[type=number],
+    textarea {
+      width: 100%;
+      min-height: 44px;
+      background: #111827 !important;
+      border: 1px solid rgba(74, 222, 128, .24);
+      border-radius: 13px;
+      padding: .76rem .85rem;
+      color: var(--text) !important;
+      outline: none;
+      font: inherit
+    }
+
+    select option {
+      background: #0f172a !important;
+      color: #e5e7eb !important
+    }
+
+    select[multiple] {
+      min-height: 132px;
+      background: #111827 !important;
+      padding: .55rem
+    }
+
+    .multi-help {
+      font-size: .72rem;
+      color: var(--text-muted);
+      margin-top: .25rem
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: .85rem
+    }
+
+    .slider-row input[type=range] {
+      flex: 1;
+      width: auto;
+      min-height: auto;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--green), rgba(74, 222, 128, .18));
+      border: none;
+      padding: 0;
+      cursor: pointer
+    }
+
+    .slider-row input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--green);
+      border: 3px solid #0b1220;
+      box-shadow: 0 0 0 2px rgba(74, 222, 128, .35);
+      cursor: pointer
+    }
+
+    .slider-row input[type=range]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--green);
+      border: 3px solid #0b1220;
+      box-shadow: 0 0 0 2px rgba(74, 222, 128, .35);
+      cursor: pointer
+    }
+
+    .slider-value {
+      min-width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: .85rem;
+      color: #04130b;
+      background: var(--green);
+      border-radius: 8px;
+      flex: 0 0 auto
+    }
+
+    .pill-multi {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      gap: .55rem;
+      margin-top: .35rem
+    }
+
+    .pill-option {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      min-height: 42px;
+      padding: .68rem .75rem;
+      border: 1px solid rgba(148, 163, 184, .18);
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(15, 23, 42, .96), rgba(30, 41, 59, .82));
+      color: #dbeafe;
+      font-size: .82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .18s ease;
+      user-select: none
+    }
+
+    .pill-option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none
+    }
+
+    .pill-option::before {
+      content: '✓';
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, .45);
+      color: transparent;
+      background: rgba(2, 6, 23, .45);
+      font-size: .72rem;
+      font-weight: 900;
+      transition: .18s ease
+    }
+
+    .pill-option:has(input:checked) {
+      border-color: rgba(74, 222, 128, .80);
+      background: linear-gradient(135deg, rgba(34, 197, 94, .28), rgba(14, 165, 233, .15));
+      box-shadow: 0 0 0 2px rgba(74, 222, 128, .10), 0 10px 28px rgba(34, 197, 94, .10);
+      color: #f8fafc
+    }
+
+    .pill-option:has(input:checked)::before {
+      background: #4ade80;
+      border-color: #86efac;
+      color: #04130b
+    }
+
+    .pill-option:hover {
+      transform: translateY(-1px);
+      border-color: rgba(96, 165, 250, .55);
+      background: linear-gradient(135deg, rgba(30, 41, 59, .98), rgba(15, 23, 42, .92))
+    }
+
+    .pill-error {
+      border-color: rgba(248, 113, 113, .7) !important;
+      box-shadow: 0 0 0 2px rgba(248, 113, 113, .12)
+    }
+
+    select:focus,
+    input:focus,
+    textarea:focus {
+      border-color: rgba(74, 222, 128, .65);
+      box-shadow: 0 0 0 3px rgba(74, 222, 128, .10)
+    }
+
+    textarea {
+      min-height: 96px;
+      resize: vertical
+    }
+
+    .check {
+      background: rgba(255, 255, 255, .045);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: .75rem .8rem;
+      font-size: .8rem;
+      line-height: 1.35;
+      display: flex;
+      align-items: flex-start;
+      gap: .5rem;
+      min-height: 48px;
+      margin: 0
+    }
+
+    .check input {
+      margin: .18rem 0 0 0;
+      flex: 0 0 auto
+    }
+
+    .actions {
+      position: sticky;
+      bottom: .8rem;
+      z-index: 25;
+      display: flex;
+      gap: .85rem;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(6, 10, 16, .92);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: .85rem;
+      margin-top: 1rem;
+      box-shadow: 0 -12px 32px rgba(0, 0, 0, .18)
+    }
+
+    .warn {
+      display: none;
+      color: #facc15;
+      font-size: .76rem
+    }
+
+    .history-item {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: .7rem;
+      margin-top: .5rem;
+      color: var(--text-muted);
+      font-size: .78rem
+    }
+
+    .small-muted {
+      font-size: .78rem;
+      color: var(--text-muted);
+      margin-bottom: .75rem
+    }
+
+    @media(max-width:980px) {
+      .overview-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+      }
+
+      .section-tabs {
+        grid-template-columns: repeat(5, minmax(104px, 1fr));
+        overflow-x: auto;
+        scrollbar-width: none
+      }
+
+      .section-tabs::-webkit-scrollbar {
+        display: none
+      }
+    }
+
+    @media(max-width:720px) {
+      .assess-wrap {
+        padding: .85rem .8rem 4rem
+      }
+
+      .grid {
+        grid-template-columns: 1fr
+      }
+
+      .overview-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .section-tabs {
+        top: .45rem;
+        display: flex;
+        flex-wrap: nowrap;
+        gap: .6rem;
+        padding: .6rem;
+        border-radius: 18px
+      }
+
+      .step-dot {
+        min-width: 106px;
+        white-space: nowrap
+      }
+
+      .actions {
+        align-items: flex-start;
+        flex-direction: column
+      }
+
+      .actions>div {
+        display: flex;
+        gap: .5rem;
+        flex-wrap: wrap
+      }
+
+      .check-grid {
+        grid-template-columns: 1fr
+      }
+
+      .overview-card {
+        padding: .75rem
+      }
+    }
+
+    .section-tabs {
+      position: sticky !important;
+      top: 78px !important;
+      z-index: 30 !important;
+      display: flex !important;
+      flex-wrap: wrap !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      gap: 1.1rem 1.6rem !important;
+      padding: 1rem 1.15rem !important;
+      margin: 1.1rem 0 1.25rem !important;
+      background: var(--bg-card) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 18px !important;
+      overflow: visible !important;
+    }
+
+    .step-dot {
+      min-height: 0 !important;
+      width: auto !important;
+      flex: 0 0 auto !important;
+      padding: .25rem 0 !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      color: var(--text-muted) !important;
+      font-size: .92rem !important;
+      font-weight: 800 !important;
+      white-space: nowrap !important;
+      line-height: 1.4 !important;
+      box-shadow: none !important;
+      transform: none !important;
+    }
+
+    .step-dot:hover,
+    .step-dot.active {
+      color: var(--green) !important;
+      background: transparent !important;
+      border: 0 !important;
+      box-shadow: none !important;
+      transform: none !important;
+    }
+
+    .step-dot.active {
+      border-bottom: 2px solid var(--green) !important;
+    }
+
+    .panel.form-step {
+      display: none;
+      clear: both;
+    }
+
+    .panel.form-step.active {
+      display: block;
+    }
+
+    .panel.form-step h2 {
+      margin-bottom: 1rem;
+    }
+
+    .panel.form-step label {
+      display: block;
+      margin: .65rem 0 .35rem;
+      font-weight: 700;
+      color: var(--text-dim);
+    }
+
+    .panel.form-step .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem 1.15rem;
+      align-items: start;
+    }
+
+    .check-grid {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)) !important;
+      gap: .7rem !important;
+      margin-top: .6rem !important;
+    }
+
+    .check {
+      display: flex !important;
+      align-items: center !important;
+      gap: .55rem !important;
+      padding: .75rem .85rem !important;
+      background: rgba(255, 255, 255, .04) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 12px !important;
+      margin: 0 !important;
+      line-height: 1.35 !important;
+    }
+
+    @media(max-width:720px) {
+      .section-tabs {
+        top: 68px !important;
+        gap: .85rem 1rem !important
+      }
+
+      .panel.form-step .grid {
+        grid-template-columns: 1fr !important
+      }
+
+      .step-dot {
+        font-size: .85rem !important
+      }
+
+      .assess-wrap {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important
+      }
+    }
+  </style>
+  <style>
+   
+    .section-tabs {
+      display: flex;
+      align-items: center;
+      gap: 1.35rem;
+      overflow-x: auto;
+      position: sticky;
+      top: .75rem;
+      background: rgba(12, 17, 24, .92);
+      border: 0;
+      border-bottom: 1px solid var(--border);
+      border-radius: 0;
+      padding: .85rem .1rem;
+      margin: 1rem 0 1.2rem;
+      box-shadow: none;
+      scrollbar-width: none
+    }
+
+    .section-tabs::-webkit-scrollbar {
+      display: none
+    }
+
+    .step-dot {
+      border: 0;
+      background: transparent;
+      border-radius: 0;
+      padding: .35rem 0;
+      min-height: auto;
+      color: var(--text-muted);
+      font-size: .92rem;
+      font-weight: 800;
+      white-space: nowrap
+    }
+
+    .step-dot:hover {
+      transform: none;
+      color: var(--text)
+    }
+
+    .step-dot.active {
+      background: transparent;
+      color: var(--green);
+      border: 0;
+      box-shadow: none;
+      border-bottom: 2px solid var(--green)
+    }
+
+    .panel {
+      padding: 1.35rem
+    }
+
+    .field-group {
+      padding: 1.05rem
+    }
+
+    .grid {
+      gap: 1.15rem 1.25rem
+    }
+
+    .check-grid {
+      gap: .85rem
+    }
+
+    .check {
+      padding: .85rem .9rem
+    }
+
+    @media(max-width:720px) {
+      .section-tabs {
+        gap: 1.05rem;
+        top: .45rem;
+        padding: .7rem .05rem
+      }
+
+      .step-dot {
+        min-width: auto;
+        font-size: .86rem
+      }
+
+      .panel {
+        padding: 1rem
+      }
+
+      .overview-grid {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    .section-tabs {
+      background: var(--bg-card) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 16px !important;
+      padding: 1rem 1.2rem !important;
+      gap: 1.35rem 1.8rem !important;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, .16) !important;
+      top: calc(var(--topbar-height, 68px) + .65rem) !important;
+    }
+
+    .step-dot {
+      padding: .2rem 0 !important;
+      min-width: auto !important;
+      white-space: nowrap !important;
+    }
+
+    .panel.form-step {
+      padding: 1.55rem !important;
+    }
+
+    .panel.form-step.active {
+      display: block !important;
+    }
+
+    .panel.form-step .grid {
+      gap: 1.2rem 1.35rem !important;
+    }
+
+    .panel.form-step label {
+      line-height: 1.3 !important;
+    }
+
+    @media(max-width:720px) {
+      .section-tabs {
+        overflow-x: auto !important;
+        flex-wrap: nowrap !important;
+        top: calc(var(--topbar-height, 62px) + .45rem) !important
+      }
+
+      .panel.form-step {
+        padding: 1rem !important
+      }
+    }
+
+    .required-label::after {
+      content: " *";
+      color: #fb7185;
+      font-weight: 900
+    }
+
+    .session-options {
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr))
+    }
+
+    .session-options input:disabled+span {
+      opacity: .55
+    }
+
+    .pill-option:has(input:disabled):not(:has(input:checked)) {
+      opacity: .45;
+      cursor: not-allowed
+    }
+
+    .pill-error {
+      border: 1px solid rgba(248, 113, 113, .75) !important;
+      border-radius: 16px;
+      padding: .45rem !important
+    }
+  </style>
+
+  <!-- PWA -->
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="theme-color" content="#1a473f">
+  <link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+  <script src="/static/js/pwa.js" defer></script>
+  <script src="/static/js/topbar-dropdown.js" defer></script>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="navbar-brand"><i class="bi bi-flower2"></i><span class="nav-label">YogGyaan</span></div>
+      <ul class="navbar-nav">
+        <li><a href="/dashboard"><i class="bi bi-house-door"></i><span class="nav-label">Dashboard</span></a></li>
+        <li><a href="/yoga-library"><i class="bi bi-person-arms-up"></i><span class="nav-label">Yoga Library</span></a></li>
+        <li><a href="/world-map"><i class="bi bi-map"></i><span class="nav-label">World Map</span></a></li>
+        <li><a href="/leaderboard"><i class="bi bi-trophy"></i><span class="nav-label">Leaderboard</span></a></li>
+        <li><a href="/health-assessment"><i class="bi bi-heart-pulse"></i><span class="nav-label">Health Assessment</span></a></li>
+        <li><a href="/wellness-reassessment"><i class="bi bi-arrow-repeat"></i><span class="nav-label">Wellness Reassessment</span></a>
+        </li>
+        <li><a href="/wellness-analytics"><i class="bi bi-graph-up-arrow"></i><span class="nav-label">Wellness Analytics</span></a></li>
+        <li><a href="/feedback"><i class="bi bi-chat-square-text"></i><span class="nav-label">Feedback</span></a></li>
+        <li><a href="/session-history"><i class="bi bi-clock-history"></i><span class="nav-label">Session History</span></a></li>
+        <li><a href="/profile" class="nav-icon-profile"><i class="bi bi-person-circle"></i><span class="nav-label">Profile</span></a></li>
+      </ul>
+    </div>
+  </nav>
+  <header class="app-topbar">
+    <div class="app-topbar-title">Hello, {{ session.get('username', user.username if user is defined else current_user
+      if current_user is defined else 'Yogi') }} - Welcome to YogGyaan</div>
+      <div class="profile-menu">
+      <div class="topbar-dropdown">
+        <button type="button" class="icon-btn" data-dropdown-trigger aria-haspopup="true" aria-expanded="false" title="Notifications" aria-label="Notifications">
+          <i class="bi bi-bell"></i>
+          <span class="notif-badge">5</span>
+        </button>
+        <div class="dropdown-panel">
+          <div class="dropdown-panel-title">Notifications</div>
+          <div class="notif-list">
+            <div class="notif-item"><i class="bi bi-stars"></i><div><strong>Daily Challenge Available</strong><small>A new challenge is ready for you today</small></div></div>
+            <div class="notif-item"><i class="bi bi-alarm"></i><div><strong>Session Reminder</strong><small>Your scheduled practice window is open</small></div></div>
+            <div class="notif-item"><i class="bi bi-trophy"></i><div><strong>Achievement Unlocked</strong><small>You've earned a new badge</small></div></div>
+            <div class="notif-item"><i class="bi bi-exclamation-triangle"></i><div><strong>Streak Warning</strong><small>Practice today to keep your streak alive</small></div></div>
+            <div class="notif-item"><i class="bi bi-heart-pulse"></i><div><strong>Wellness Recommendation</strong><small>New guidance based on your latest check-in</small></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="topbar-dropdown">
+        <button type="button" class="icon-btn profile-trigger" data-dropdown-trigger aria-haspopup="true" aria-expanded="false" title="Account" aria-label="Account menu">
+          <i class="bi bi-person-circle"></i>
+          <i class="bi bi-chevron-down caret-icon"></i>
+        </button>
+        <div class="dropdown-panel">
+          <a href="/profile" class="dropdown-item"><i class="bi bi-person"></i>Profile</a>
+          <form action="/logout" method="POST" class="dropdown-form">
+            <button type="submit" class="dropdown-item dropdown-item-danger"><i class="bi bi-box-arrow-right"></i>Logout</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="assess-wrap">
+    <section class="assess-hero">
+      {% if error %}<div
+        style="margin-bottom:.8rem;padding:.75rem 1rem;border:1px solid rgba(248,113,113,.45);background:rgba(248,113,113,.10);border-radius:14px;color:#fecaca;font-weight:800">
+        {{ error }}</div>{% endif %}
+      <h1>{% if onboarding %}Initial Wellness Assessment{% else %}Health & Questionnaire{% endif %}</h1>
+      <p class="text-muted">View and update your health profile, goals, practice timing, weekly schedule, and session
+        preferences. Open any section directly and save only the changes you need.</p>
+      <div class="overview-grid" aria-label="Health assessment quick overview">
+        <div class="overview-card">
+          <div class="overview-value">{{ selected_conditions|length }}</div>
+          <div class="overview-label">Conditions</div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-value">{{ selected_goals|length }}</div>
+          <div class="overview-label">Goals</div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-value">{{ selected_days|length }}</div>
+          <div class="overview-label">Practice Days</div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-value">{{ selected_times|length }}</div>
+          <div class="overview-label">Practice Periods</div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-value" style="font-size:.9rem;color:var(--text)">{{ answer.get('updated_at','Not saved
+            yet') }}</div>
+          <div class="overview-label">Last Updated</div>
+        </div>
+      </div>
+      <div class="progress-shell">
+        <div id="progressFill" class="progress-fill"></div>
+      </div>
+    </section>
+    <form method="POST" action="{% if onboarding %}/questionnaire{% else %}/health-assessment{% endif %}"
+      id="assessmentForm">
+      <nav class="section-tabs" id="stepDots" aria-label="Health assessment sections">
+        <button type="button" class="step-dot active" data-step="0">Basic</button>
+        <button type="button" class="step-dot" data-step="1">Safety</button>
+        <button type="button" class="step-dot" data-step="2">Goals</button>
+        <button type="button" class="step-dot" data-step="3">Baseline</button>
+        <button type="button" class="step-dot" data-step="4">Schedule</button>
+      </nav>
+      <section class="panel form-step active">
+        <h2>Basic Profile</h2>
+        <div class="grid">
+          <div><label>Age Range</label><select name="age_range" required>{% for o in ['Below
+              18','18-30','31-45','46-60','60+'] %}<option value="{{o}}" {% if answer.get('age_range')==o %}selected{%
+                endif %}>{{o}}</option>{% endfor %}</select></div>
+          <div><label>Biological Sex</label><select name="biological_sex" required>{% for o in ['Prefer not to
+              say','Female','Male','Other'] %}<option value="{{o}}" {% if answer.get('biological_sex')==o %}selected{%
+                endif %}>{{o}}</option>{% endfor %}</select></div>
+          <div><label>Activity Level</label><select name="activity_level" required>{% for o in
+              ['Low','Moderate','Active','Very Active'] %}<option value="{{o}}" {% if answer.get('activity_level')==o
+                %}selected{% endif %}>{{o}}</option>{% endfor %}</select></div>
+          <div><label>Yoga Experience</label><select name="yoga_experience" required>{% for o in
+              ['Never','Occasionally','Regularly'] %}<option value="{{o}}" {% if answer.get('yoga_experience')==o
+                %}selected{% endif %}>{{o}}</option>{% endfor %}</select></div>
+          <div><label>Session Duration Preference</label><select name="session_duration_preference" required
+              id="sessionDurationPreference">{% for o in ['10 minutes','15 minutes','20 minutes','30 minutes'] %}<option
+                value="{{o}}" {% if answer.get('session_duration_preference')==o %}selected{% endif %}>{{o}}</option>{%
+              endfor %}</select></div>
+          <div><label>Weekly Practice Frequency</label><select name="weekly_practice_frequency" required>{% for o in
+              ['1-2 days','3-4 days','5+ days'] %}<option value="{{o}}" {% if answer.get('weekly_practice_frequency')==o
+                %}selected{% endif %}>{{o}}</option>{% endfor %}</select></div>
+        </div>
+        <label style="margin-top:.8rem">Asanas you currently practice / feel comfortable with</label>
+        <div class="pill-multi" data-required-multi="current_asanas">{% for p in all_poses %}<label
+            class="pill-option"><input type="checkbox" name="current_asanas" value="{{p}}" {% if p in selected_asanas
+              %}checked{% endif %}> {{p.replace('_',' ').title()}}</label>{% endfor %}</div>
+        <div class="multi-help">Tap options to tick-select multiple asanas.</div>
+      </section>
+
+      <section class="panel form-step">
+        <h2>Health & Safety</h2>
+        <label>Existing conditions</label>
+        <div class="pill-multi" data-required-multi="health_conditions">{% for c in ['Back pain','Joint pain','Recent
+          injury','Blood pressure issues','Cardiovascular condition','Respiratory condition','Neurological
+          condition','Pregnancy/Postpartum','None'] %}<label class="pill-option"><input type="checkbox"
+              name="health_conditions" value="{{c}}" {% if c in selected_conditions %}checked{% endif %}>
+            {{c}}</label>{% endfor %}</div>
+        <div class="multi-help">Tap to tick-select. Choose None only if there are no existing conditions.</div>
+        <div class="grid" style="margin-top:.85rem">
+          <div><label>Was yoga recommended by a healthcare professional?</label><select name="healthcare_recommended"
+              required>{% for o in ['No','Yes'] %}<option value="{{o}}" {% if answer.get('healthcare_recommended')==o
+                %}selected{% endif %}>{{o}}</option>{% endfor %}</select></div>
+          <div><label>Medical recovery / surgery / condition management</label><select name="medical_recovery_type"
+              required>{% for o in ['No','Post-surgery rehabilitation','Pre-surgery conditioning','Chronic condition
+              management'] %}<option value="{{o}}" {% if answer.get('medical_recovery_type')==o %}selected{% endif %}>
+                {{o}}</option>{% endfor %}</select></div>
+          <div style="grid-column:1/-1"><label>Surgery / condition involved</label>
+            <div class="pill-multi" data-required-multi="surgery_or_condition">{% for o in ['None','Spine injury','Knee
+              injury','Ankle injury','Wrist injury','Shoulder injury','Neck injury','Vertigo','Pregnancy','Recent
+              surgery','Lower back pain','ACL surgery','Arthritis','Cardiac recovery','Respiratory recovery'] %}<label
+                class="pill-option"><input type="checkbox" name="surgery_or_condition" value="{{o}}" {% if o in
+                  answer.get('surgery_or_condition','') %}checked{% endif %}> {{o}}</label>{% endfor %}</div>
+            <div class="multi-help">Tap to tick-select multiple surgery/condition tags.</div>
+          </div>
+        </div>
+        <label style="margin-top:.8rem">Contraindications and restrictions</label>
+        <div class="pill-multi restriction-group" data-none-group="restrictions">{% for tag,label in
+          RESTRICTION_TAGS %}<label class="pill-option"><input type="checkbox" name="restrictions" value="{{label}}"
+              {% if (tag=='none' and not answer.get('restrictions','')) or (tag!='none' and tag.replace('_',' ') in
+              answer.get('restrictions','').lower()) %}checked{% endif %}> {{label}}</label>{% endfor %}</div>
+        <div class="multi-help">Tap to tick-select known contraindications. Choose None if none apply — selecting
+          None clears other choices.</div>
+        <label style="margin-top:.8rem">Doctor / physiotherapist restrictions</label>
+        <div class="pill-multi restriction-group" data-none-group="doctor_restrictions">{% for tag,label in
+          RESTRICTION_TAGS %}<label class="pill-option"><input type="checkbox" name="doctor_restrictions"
+              value="{{label}}" {% if (tag=='none' and not answer.get('doctor_restrictions','')) or (tag!='none' and
+              tag.replace('_',' ') in answer.get('doctor_restrictions','').lower()) %}checked{% endif %}>
+            {{label}}</label>{% endfor %}</div>
+        <div class="multi-help">Tap to tick-select any restrictions specified by a doctor or physiotherapist. Choose
+          None if none apply — selecting None clears other choices.</div>
+      </section>
+
+      <section class="panel form-step">
+        <h2>Goals & Feature Preferences</h2>
+        <p class="small-muted">Choose your goals. This is required.</p>
+        <div class="pill-multi" data-required-multi="goals">{% for g in ['Stress
+          relief','Flexibility','Strength','Weight management','Better sleep','Posture correction','Pain
+          management','Mental health support','Mindfulness','General fitness','Spiritual practice','Community'] %}<label
+            class="pill-option"><input type="checkbox" name="goals" value="{{g}}" {% if g in selected_goals %}checked{%
+              endif %}> {{g}}</label>{% endfor %}</div>
+        <div class="multi-help">Tap to tick-select multiple goals.</div>
+        <div class="grid" style="margin-top:.85rem">{% for f,label in [('voice_guidance','Voice
+          guidance'),('visual_demonstrations','Visual demonstrations'),('personalized_difficulty','Personalized
+          difficulty'),('progress_reports','Progress
+          reports'),('reminders','Reminders'),('community','Community'),('health_app_integration','Health app
+          integration')] %}<div><label for="slider_{{f}}">{{label}} importance</label>
+            <div class="slider-row"><input type="range" min="1" max="5" step="1" value="3" name="{{f}}"
+                id="slider_{{f}}" oninput="document.getElementById('val_{{f}}').textContent=this.value">
+              <span class="slider-value" id="val_{{f}}">3</span></div>
+          </div>{% endfor %}</div>
+        <label style="margin-top:.8rem">What do you most hope to experience through this app?</label><textarea
+          name="expectations">{{ answer.get('expectations','') }}</textarea>
+      </section>
+
+      <section class="panel form-step">
+        <h2>Baseline Wellness</h2>
+        <div class="grid">{% for key,label in [('baseline_stress','Stress
+          level'),('baseline_mood','Mood'),('baseline_sleep','Sleep quality'),('baseline_flexibility','Physical
+          flexibility'),('baseline_balance','Physical balance')] %}<div><label for="slider_{{key}}">{{label}}
+              (1-10)</label>
+            <div class="slider-row"><input type="range" min="1" max="10" step="1" value="{{ answer.get(key,5) }}"
+                name="{{key}}" id="slider_{{key}}"
+                oninput="document.getElementById('val_{{key}}').textContent=this.value">
+              <span class="slider-value" id="val_{{key}}">{{ answer.get(key,5) }}</span></div>
+          </div>{% endfor %}
+        </div>
+      </section>
+
+      <section class="panel form-step">
+        <h2>Practice Timing & Weekly Availability</h2>
+        <div class="panel" style="background:rgba(74,222,128,.06);margin-bottom:1rem">
+          <h3>Choose Your Practice Style</h3>
+          <p class="small-muted">Session Mode creates rule-based time blocks. Free Practice lets you practise anytime
+            with no schedule.</p>
+          <div class="grid">
+            <div><label>Practice style</label><select name="practice_mode" required id="practiceMode">
+                <option value="session" {% if answer.get('practice_mode','session')!='free' %}selected{% endif %}>
+                  Session Mode</option>
+                <option value="free" {% if answer.get('practice_mode')=='free' %}selected{% endif %}>Free Practice Mode
+                </option>
+              </select></div>
+          </div>
+        </div>
+        <div id="sessionScheduleFields">
+          <label>Preferred practice time window</label>
+          <div class="pill-multi" data-required-multi="preferred_times" data-session-required="1">{% for t in
+            ['Morning','Afternoon','Evening','Night'] %}<label class="pill-option"><input type="checkbox"
+                name="preferred_times" value="{{t}}" {% if t in selected_times %}checked{% endif %}> {{t}}</label>{%
+            endfor %}</div>
+          <div class="multi-help">Morning 6–11 AM · Afternoon 12–4 PM · Evening 5–9 PM · Night 9–11 PM</div>
+          <label style="margin-top:.8rem">Available practice days</label>
+          <div class="pill-multi" data-required-multi="available_days" data-session-required="1">{% for d in
+            ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] %}<label class="pill-option"><input
+                type="checkbox" name="available_days" value="{{d}}" {% if d in selected_days %}checked{% endif %}>
+              {{d}}</label>{% endfor %}</div>
+          <div class="grid" style="margin-top:.85rem">
+            <div><label>Sessions per selected day</label><select name="sessions_per_day" required id="sessionsPerDay">{%
+                for o in [1,2,3,4] %}<option value="{{o}}" {% if answer.get('sessions_per_day',1)==o %}selected{% endif
+                  %}>{{o}}</option>{% endfor %}</select></div>
+          </div>
+          <div class="field-group" id="sessionChoiceBox">
+            <h3>Choose exact session times</h3>
+            <p class="small-muted">Select exactly the chosen number of sessions. Options stay inside your preferred
+              window and keep at least 30 minutes cool-off.</p>
+            <div class="pill-multi session-options" id="sessionOptions" data-required-multi="selected_session_times"
+              data-session-required="1"></div>
+            <div class="multi-help" id="sessionOptionHelp">Select a time window and session count to generate options.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="actions">
+        <span class="warn" id="dirtyWarn">Unsaved changes</span>
+        <div>
+          <button type="button" class="btn btn-secondary" id="prevBtn">Previous</button>
+          <button type="button" class="btn btn-secondary" id="resetBtn">Reset section</button>
+          <button type="button" class="btn btn-primary" id="nextBtn">Next</button>
+          <button type="submit" class="btn btn-primary" id="saveBtn">Save changes</button>
+        </div>
+      </div>
+    </form>
+
+    {% if history %}
+    <section class="panel">
+      <h2>Previous health updates</h2>
+      {% for h in history %}
+      <div class="history-item">Saved on {{ h.created_at }}</div>
+      {% endfor %}
+    </section>
+    {% endif %}
+  </main>
+  <script>
+    const steps = [...document.querySelectorAll('.form-step')], dots = [...document.querySelectorAll('.step-dot')];
+    let current = 0, dirty = false;
+    const practiceMode = document.getElementById('practiceMode');
+    const sessionFields = document.getElementById('sessionScheduleFields');
+    const sessionsPerDay = document.getElementById('sessionsPerDay');
+    const sessionOptions = document.getElementById('sessionOptions');
+    const sessionOptionHelp = document.getElementById('sessionOptionHelp');
+    const SESSION_WINDOWS = { Morning: [6 * 60, 11 * 60], Afternoon: [12 * 60, 16 * 60], Evening: [17 * 60, 21 * 60], Night: [21 * 60, 23 * 60] };
+    const savedSessionTimes = {{ (answer.get('custom_session_times', '[]') if answer else '[]')| safe }};
+    function isFreeMode() { return practiceMode && practiceMode.value === 'free'; }
+    function hhmm(min) { const h = Math.floor(min / 60), m = min % 60; return String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0'); }
+    function humanTime(v) { let [h, m] = v.split(':').map(Number); const am = h < 12; let hh = h % 12 || 12; return `${hh}:${String(m).padStart(2, '0')} ${am ? 'AM' : 'PM'}`; }
+    function selectedValues(name) { return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(x => x.value); }
+    function toggleSessionFields() {
+      const free = isFreeMode();
+      if (sessionFields) { sessionFields.style.display = free ? 'none' : 'block'; }
+      document.querySelectorAll('#sessionScheduleFields input,#sessionScheduleFields select').forEach(el => {
+        if (el.name === 'practice_mode') return;
+        el.disabled = free;
+        if (free && el.type === 'checkbox') el.checked = false;
+      });
+      renderSessionOptions();
+    }
+    function sessionDurationMinutes() {
+      const raw = document.getElementById('sessionDurationPreference')?.value || '30 minutes';
+      const n = parseInt(raw, 10);
+      return Number.isFinite(n) ? n : 30;
+    }
+    function renderSessionOptions() {
+      if (!sessionOptions || isFreeMode()) return;
+      const times = selectedValues('preferred_times');
+      const count = parseInt(sessionsPerDay?.value || '1', 10);
+      const duration = sessionDurationMinutes();
+      const cooldown = 30;
+      const startGap = duration + cooldown;
+      sessionOptions.innerHTML = '';
+      const options = [];
+      times.forEach(t => {
+        const win = SESSION_WINDOWS[t]; if (!win) return;
+        
+        for (let m = win[0]; m + duration <= win[1]; m += startGap) {
+          const start = hhmm(m), end = hhmm(m + duration);
+          options.push({ time: start, label: `${t} · ${humanTime(start)} – ${humanTime(end)}` });
+        }
+      });
+      const seen = new Set();
+      const clean = options.filter(o => !seen.has(o.time) && seen.add(o.time)).sort((a, b) => a.time.localeCompare(b.time));
+      clean.forEach(o => {
+        const checked = savedSessionTimes.includes(o.time);
+        sessionOptions.insertAdjacentHTML('beforeend', `<label class="pill-option"><input type="checkbox" name="selected_session_times" value="${o.time}" ${checked ? 'checked' : ''}> ${o.label}</label>`);
+      });
+      sessionOptionHelp.textContent = clean.length ? `Choose exactly ${count} session${count > 1 ? 's' : ''}. Each option = start time + ${duration} min session + 30 min cool-off.` : 'Select at least one preferred time window.';
+      enforceSessionLimit();
+    }
+    function enforceSessionLimit() {
+      if (!sessionOptions) return;
+      const count = parseInt(sessionsPerDay?.value || '1', 10);
+      const requiredGap = sessionDurationMinutes() + 30;
+      let checked = [...sessionOptions.querySelectorAll('input:checked')].sort((a, b) => a.value.localeCompare(b.value));
+      let kept = [];
+      for (const cb of checked) {
+        const mins = parseInt(cb.value.slice(0, 2)) * 60 + parseInt(cb.value.slice(3));
+        if (kept.every(x => Math.abs(mins - x.mins) >= requiredGap)) { kept.push({ cb, mins }); } else cb.checked = false;
+      }
+      checked = [...sessionOptions.querySelectorAll('input:checked')].sort((a, b) => a.value.localeCompare(b.value));
+      if (checked.length > count) { checked.slice(count).forEach(cb => cb.checked = false); }
+      const selected = [...sessionOptions.querySelectorAll('input:checked')];
+      sessionOptions.querySelectorAll('input:not(:checked)').forEach(cb => { cb.disabled = selected.length >= count; });
+    }
+    function fieldLabel(el) { return (el.closest('div')?.querySelector('label') || el.previousElementSibling || el).textContent.trim().replace('*', ''); }
+    function validateStep(idx, showAlert = true) {
+      const step = steps[idx]; if (!step) return true;
+      let firstBad = null;
+      for (const el of step.querySelectorAll('input[required],select[required],textarea[required]')) {
+        if (el.disabled || el.offsetParent === null) continue;
+        if (!String(el.value || '').trim()) { firstBad = el; break; }
+        if (el.type === 'number') {
+          const v = Number(el.value), min = el.min ? Number(el.min) : -Infinity, max = el.max ? Number(el.max) : Infinity;
+          if (Number.isNaN(v) || v < min || v > max) { firstBad = el; break; }
+        }
+      }
+      if (!firstBad) {
+        for (const group of step.querySelectorAll('[data-required-multi]')) {
+          if (group.offsetParent === null) continue;
+          if (group.dataset.sessionRequired && isFreeMode()) continue;
+          const ok = group.querySelector('input[type="checkbox"]:checked:not(:disabled)');
+          group.classList.toggle('pill-error', !ok);
+          if (!ok) { firstBad = group; break; }
+          if (group.id === 'sessionOptions') {
+            const need = parseInt(sessionsPerDay?.value || '1', 10);
+            const chosen = group.querySelectorAll('input[type="checkbox"]:checked:not(:disabled)').length;
+            if (chosen !== need) { firstBad = group; if (showAlert) alert(`Please select exactly ${need} session time${need > 1 ? 's' : ''}.`); break; }
+          }
+        }
+      }
+      if (firstBad) {
+        firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (showAlert && firstBad.id !== 'sessionOptions') alert('Please complete all compulsory questions on this page before moving ahead.');
+        firstBad.focus?.();
+        return false;
+      }
+      return true;
+    }
+    function showStep(i, shouldScroll = false) {
+      current = Math.max(0, Math.min(i, steps.length - 1));
+      steps.forEach((s, idx) => s.classList.toggle('active', idx === current));
+      dots.forEach((d, idx) => d.classList.toggle('active', idx === current));
+      document.getElementById('progressFill').style.width = ((current + 1) / steps.length * 100) + '%';
+      document.getElementById('prevBtn').style.visibility = current === 0 ? 'hidden' : 'visible';
+      document.getElementById('nextBtn').style.visibility = current === steps.length - 1 ? 'hidden' : 'visible';
+      if (shouldScroll) { document.getElementById('stepDots').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    }
+    dots.forEach(dot => dot.addEventListener('click', () => { const target = Number(dot.dataset.step); if (target <= current || validateStep(current)) showStep(target, true); }));
+    document.getElementById('nextBtn').onclick = () => { if (validateStep(current)) showStep(current + 1, true); };
+    document.getElementById('prevBtn').onclick = () => showStep(current - 1, true);
+    function validateRequiredMulti() { for (let i = 0; i < steps.length; i++) { if (!validateStep(i, false)) { showStep(i, true); validateStep(i, true); return false; } } return true; }
+    document.getElementById('assessmentForm').addEventListener('submit', function (e) { if (!validateRequiredMulti()) { e.preventDefault(); } });
+    document.getElementById('resetBtn').onclick = () => { steps[current].querySelectorAll('input,textarea,select').forEach(el => { if (el.type === 'checkbox') el.checked = false; else if (el.tagName === 'SELECT') el.selectedIndex = 0; else el.value = ''; }); dirty = true; document.getElementById('dirtyWarn').style.display = 'inline'; renderSessionOptions(); };
+    document.getElementById('assessmentForm').addEventListener('input', () => { dirty = true; document.getElementById('dirtyWarn').style.display = 'inline'; });
+    document.getElementById('assessmentForm').addEventListener('submit', () => { dirty = false; document.getElementById('dirtyWarn').style.display = 'none'; });
+   
+    function markRequired() {
+      document.querySelectorAll('input[required],select[required],textarea[required]').forEach(el => { const lab = el.closest('div')?.querySelector('label') || el.previousElementSibling; lab?.classList.add('required-label'); });
+      document.querySelectorAll('[data-required-multi]').forEach(g => { let lab = g.previousElementSibling; while (lab && lab.tagName !== 'LABEL') lab = lab.previousElementSibling; lab?.classList.add('required-label'); });
+    }
+    
+    document.querySelectorAll('.pill-multi').forEach(group => {
+      group.addEventListener('change', e => {
+        const cb = e.target; if (!cb.matches('input[type="checkbox"]')) return;
+        const isNone = /^none$/i.test(cb.value.trim());
+        if (isNone && cb.checked) { group.querySelectorAll('input[type="checkbox"]').forEach(x => { if (x !== cb) x.checked = false; }); }
+        if (!isNone && cb.checked) { group.querySelectorAll('input[type="checkbox"]').forEach(x => { if (/^none$/i.test(x.value.trim())) x.checked = false; }); }
+        if (group.id === 'sessionOptions') enforceSessionLimit();
+        if (cb.name === 'preferred_times') renderSessionOptions();
+      });
+    });
+    practiceMode?.addEventListener('change', toggleSessionFields);
+    sessionsPerDay?.addEventListener('change', renderSessionOptions);
+    markRequired(); toggleSessionFields(); showStep(0);
+  </script>
+
+</body>
+
+</html>

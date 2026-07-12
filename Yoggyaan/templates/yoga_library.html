@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Yoga Library - YogGyaan</title>
+  <link rel="stylesheet" href="/static/css/style.css?v=2">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    .library-wrap {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 4rem
+    }
+
+    .library-hero {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 1.25rem;
+      margin-bottom: 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap
+    }
+
+    .library-hero h1 {
+      margin: .15rem 0
+    }
+
+    .library-kicker {
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      color: var(--green);
+      font-weight: 800
+    }
+
+    .pose-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .9rem
+    }
+
+    .pose-tile {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.05rem 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: .55rem;
+      text-decoration: none;
+      color: inherit;
+      transition: .2s
+    }
+
+    .pose-tile:hover {
+      transform: translateY(-3px);
+      border-color: rgba(74, 222, 128, .4);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, .18)
+    }
+
+    .tile-top {
+      display: flex;
+      align-items: center;
+      gap: .75rem
+    }
+
+    .tile-accent {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      flex: 0 0 auto
+    }
+
+    .tile-name {
+      font-weight: 800
+    }
+
+    .tile-meta,
+    .tile-sub {
+      font-size: .76rem;
+      color: var(--text-muted)
+    }
+
+    .tile-mastery {
+      border-top: 1px solid var(--border);
+      padding-top: .5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .6rem;
+      font-size: .74rem
+    }
+
+    .mastery-badge {
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: .65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      background: rgba(74, 222, 128, .12);
+      color: var(--green)
+    }
+
+    @media(max-width:720px) {
+      .library-wrap {
+        padding: .85rem .8rem 4rem
+      }
+
+      .pose-grid {
+        grid-template-columns: 1fr
+      }
+
+      .library-hero {
+        border-radius: 18px
+      }
+    }
+  </style>
+  <!-- PWA -->
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="theme-color" content="#1a473f">
+  <link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+  <script src="/static/js/pwa.js" defer></script>
+  <script src="/static/js/topbar-dropdown.js" defer></script>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="navbar-brand"><i class="bi bi-flower2"></i><span class="nav-label">YogGyaan</span></div>
+      <ul class="navbar-nav">
+        <li><a href="/dashboard"><i class="bi bi-house-door"></i><span class="nav-label">Dashboard</span></a></li>
+        <li><a href="/yoga-library"><i class="bi bi-person-arms-up"></i><span class="nav-label">Yoga Library</span></a></li>
+        <li><a href="/world-map"><i class="bi bi-map"></i><span class="nav-label">World Map</span></a></li>
+        <li><a href="/leaderboard"><i class="bi bi-trophy"></i><span class="nav-label">Leaderboard</span></a></li>
+        <li><a href="/health-assessment"><i class="bi bi-heart-pulse"></i><span class="nav-label">Health Assessment</span></a></li>
+        <li><a href="/wellness-reassessment"><i class="bi bi-arrow-repeat"></i><span class="nav-label">Wellness Reassessment</span></a>
+        </li>
+        <li><a href="/wellness-analytics"><i class="bi bi-graph-up-arrow"></i><span class="nav-label">Wellness Analytics</span></a></li>
+        <li><a href="/feedback"><i class="bi bi-chat-square-text"></i><span class="nav-label">Feedback</span></a></li>
+        <li><a href="/session-history"><i class="bi bi-clock-history"></i><span class="nav-label">Session History</span></a></li>
+        <li><a href="/profile" class="nav-icon-profile"><i class="bi bi-person-circle"></i><span class="nav-label">Profile</span></a></li>
+      </ul>
+    </div>
+  </nav>
+  <header class="app-topbar">
+    <div class="app-topbar-title">Hello, {{ session.get('username', user.username if user is defined else current_user
+      if current_user is defined else 'Yogi') }} - Welcome to YogGyaan</div>
+      <div class="profile-menu">
+      <div class="topbar-dropdown">
+        <button type="button" class="icon-btn" data-dropdown-trigger aria-haspopup="true" aria-expanded="false" title="Notifications" aria-label="Notifications">
+          <i class="bi bi-bell"></i>
+          <span class="notif-badge">5</span>
+        </button>
+        <div class="dropdown-panel">
+          <div class="dropdown-panel-title">Notifications</div>
+          <div class="notif-list">
+            <div class="notif-item"><i class="bi bi-stars"></i><div><strong>Daily Challenge Available</strong><small>A new challenge is ready for you today</small></div></div>
+            <div class="notif-item"><i class="bi bi-alarm"></i><div><strong>Session Reminder</strong><small>Your scheduled practice window is open</small></div></div>
+            <div class="notif-item"><i class="bi bi-trophy"></i><div><strong>Achievement Unlocked</strong><small>You've earned a new badge</small></div></div>
+            <div class="notif-item"><i class="bi bi-exclamation-triangle"></i><div><strong>Streak Warning</strong><small>Practice today to keep your streak alive</small></div></div>
+            <div class="notif-item"><i class="bi bi-heart-pulse"></i><div><strong>Wellness Recommendation</strong><small>New guidance based on your latest check-in</small></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="topbar-dropdown">
+        <button type="button" class="icon-btn profile-trigger" data-dropdown-trigger aria-haspopup="true" aria-expanded="false" title="Account" aria-label="Account menu">
+          <i class="bi bi-person-circle"></i>
+          <i class="bi bi-chevron-down caret-icon"></i>
+        </button>
+        <div class="dropdown-panel">
+          <a href="/profile" class="dropdown-item"><i class="bi bi-person"></i>Profile</a>
+          <form action="/logout" method="POST" class="dropdown-form">
+            <button type="submit" class="dropdown-item dropdown-item-danger"><i class="bi bi-box-arrow-right"></i>Logout</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="library-wrap">
+    <section class="library-hero">
+      <div>
+        <div class="library-kicker">Yoga Library</div>
+        <h1>Practice asanas anytime</h1>
+        <p class="text-muted">Choose any unlocked pose and continue with the existing webcam practice flow.</p>
+      </div>
+      <a class="btn btn-ghost" href="/dashboard">Back to Dashboard</a>
+    </section>
+    <div class="pose-grid">
+
+      {% for r in world_ctx.regions %}
+      <a href="/game/{{ r.pose }}" class="pose-tile">
+        <div class="tile-top">
+          <span class="tile-accent" style="background:{{ r.color }}"></span>
+          <div>
+            <div class="tile-name">{{ r.pose_name }}</div>
+            <div class="tile-meta">{{ r.region }} &middot; {{ r.biome }}</div>
+          </div>
+        </div>
+        <div class="tile-sub">{{ r.icon }} {{ r.stage.name }} · {{ r.pct }}% restored</div>
+        <div class="tile-mastery">
+          <span>{{ r.total_sessions }} sessions &middot; {{ r.total_reps }} reps</span>
+          <span class="mastery-badge">{{ r.mastery_level }}</span>
+        </div>
+        
+      </a>
+      {% endfor %}
+    </div>
+  </main>
+</body>
+
+</html>

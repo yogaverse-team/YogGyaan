@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Initial Assessment - YogGyaan</title>
+  <link rel="stylesheet" href="/static/css/style.css?v=2">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    .assess-wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 1.5rem
+    }
+
+    .assess-hero,
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.15rem;
+      margin-bottom: 1rem
+    }
+
+    .progress-shell {
+      height: 9px;
+      background: rgba(255, 255, 255, .08);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-top: .75rem
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--green), var(--gold));
+      transition: .25s
+    }
+
+    .steps {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      margin: .8rem 0
+    }
+
+    .step-dot {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: .35rem .65rem;
+      font-size: .72rem;
+      color: var(--text-muted)
+    }
+
+    .step-dot.active {
+      background: rgba(74, 222, 128, .14);
+      color: var(--green);
+      border-color: rgba(74, 222, 128, .45)
+    }
+
+    .form-step {
+      display: none
+    }
+
+    .form-step.active {
+      display: block
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: .85rem
+    }
+
+    @media(max-width:720px) {
+      .grid {
+        grid-template-columns: 1fr
+      }
+
+      .assess-wrap {
+        padding: .8rem
+      }
+    }
+
+    label {
+      font-size: .78rem;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: .35rem
+    }
+
+    select,
+    input[type=text],
+    input[type=number],
+    textarea {
+      width: 100%;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .68rem;
+      color: var(--text)
+    }
+
+    textarea {
+      min-height: 78px
+    }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .5rem
+    }
+
+    @media(max-width:720px) {
+      .check-grid {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    .check {
+      background: rgba(255, 255, 255, .035);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .55rem;
+      font-size: .78rem
+    }
+
+    .actions {
+      position: sticky;
+      bottom: .8rem;
+      display: flex;
+      gap: .65rem;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(6, 10, 16, .88);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: .8rem;
+      margin-top: 1rem
+    }
+
+    .warn {
+      display: none;
+      color: #facc15;
+      font-size: .76rem
+    }
+
+    .history-item {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: .7rem;
+      margin-top: .5rem;
+      color: var(--text-muted);
+      font-size: .78rem
+    }
+
+    .small-muted {
+      font-size: .75rem;
+      color: var(--text-muted)
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: .85rem
+    }
+
+    .slider-row input[type=range] {
+      flex: 1;
+      width: auto;
+      min-height: auto;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--green), rgba(74, 222, 128, .18));
+      border: none;
+      padding: 0;
+      cursor: pointer
+    }
+
+    .slider-row input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--green);
+      border: 3px solid #0b1220;
+      box-shadow: 0 0 0 2px rgba(74, 222, 128, .35);
+      cursor: pointer
+    }
+
+    .slider-row input[type=range]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--green);
+      border: 3px solid #0b1220;
+      box-shadow: 0 0 0 2px rgba(74, 222, 128, .35);
+      cursor: pointer
+    }
+
+    .slider-value {
+      min-width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: .85rem;
+      color: #04130b;
+      background: var(--green);
+      border-radius: 8px;
+      flex: 0 0 auto
+    }
+  </style>
+  <!-- PWA -->
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="theme-color" content="#1a473f">
+  <link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+  <script src="/static/js/pwa.js" defer></script>
+  <script src="/static/js/topbar-dropdown.js" defer></script>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="navbar-brand"><i class="bi bi-flower2"></i><span class="nav-label">YogGyaan</span></div>
+      <ul class="navbar-nav">
+        <li><a href="/dashboard"><i class="bi bi-house-door"></i><span class="nav-label">Dashboard</span></a></li>
+        <li><a href="/yoga-library"><i class="bi bi-person-arms-up"></i><span class="nav-label">Yoga Library</span></a></li>
+        <li><a href="/world-map"><i class="bi bi-map"></i><span class="nav-label">World Map</span></a></li>
+        <li><a href="/leaderboard"><i class="bi bi-trophy"></i><span class="nav-label">Leaderboard</span></a></li>
+        <li><a href="/health-assessment"><i class="bi bi-heart-pulse"></i><span class="nav-label">Health Assessment</span></a></li>
+        <li><a href="/wellness-reassessment"><i class="bi bi-arrow-repeat"></i><span class="nav-label">Wellness Reassessment</span></a>
+        </li>
+        <li><a href="/wellness-analytics"><i class="bi bi-graph-up-arrow"></i><span class="nav-label">Wellness Analytics</span></a></li>
+        <li><a href="/feedback"><i class="bi bi-chat-square-text"></i><span class="nav-label">Feedback</span></a></li>
+        <li><a href="/session-history"><i class="bi bi-clock-history"></i><span class="nav-label">Session History</span></a></li>
+        <li><a href="/profile" class="nav-icon-profile"><i class="bi bi-person-circle"></i><span class="nav-label">Profile</span></a></li>
+      </ul>
+    </div>
+  </nav>
+  <header class="app-topbar">
+    <div class="app-topbar-title">Hello, {{ session.get('username', user.username if user is defined else current_user
+      if current_user is defined else 'Yogi') }} - Welcome to YogGyaan</div>
+      <div class="profile-menu">
+      <div class="topbar-dropdown">
+        <button type="button" class="icon-btn" data-dropdown-trigger aria-haspopup="true" aria-expanded="false" title="Notifications" aria-label="Notifications">
+          <i class="bi bi-bell"></i>
+          <span class="notif-badge">5</span>
+        </button>
+        <div class="dropdown-panel">
+          <div class="dropdown-panel-title">Notifications</div>
+          <div class="notif-list">
+            <div class="notif-item"><i class="bi bi-stars"></i><div><strong>Daily Challenge Available</strong><small>A new challenge is ready for you today</small></div></div>
+            <div class="notif-item"><i class="bi bi-alarm"></i><div><strong>Session Reminder</strong><small>Your scheduled practice window is open</small></div></div>
+            <div class="notif-item"><i class="bi bi-trophy"></i><div><strong>Achievement Unlocked</strong><small>You've earned a new badge</small></div></div>
+            <div class="notif-item"><i class="bi bi-exclamation-triangle"></i><div><strong>Streak Warning</strong><small>Practice today to keep your streak alive</small></div></div>
+            <div class="notif-item"><i class="bi bi-heart-pulse"></i><div><strong>Wellness Recommendation</strong><small>New guidance based on your latest check-in</small></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="topbar-dropdown">
+        <button type="button" class="icon-btn profile-trigger" data-dropdown-trigger aria-haspopup="true" aria-expanded="false" title="Account" aria-label="Account menu">
+          <i class="bi bi-person-circle"></i>
+          <i class="bi bi-chevron-down caret-icon"></i>
+        </button>
+        <div class="dropdown-panel">
+          <a href="/profile" class="dropdown-item"><i class="bi bi-person"></i>Profile</a>
+          <form action="/logout" method="POST" class="dropdown-form">
+            <button type="submit" class="dropdown-item dropdown-item-danger"><i class="bi bi-box-arrow-right"></i>Logout</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="assess-wrap">
+    <section class="assess-hero">
+      <h1>{% if onboarding %}Initial Wellness Assessment{% else %}Health & Questionnaire{% endif %}</h1>
+      <p class="text-muted">View and update your health profile, goals, practice timing, weekly schedule, and session
+        preferences. Changes affect future recommendations and schedules.</p>
+      <p class="small-muted">Last updated: {{ answer.get('updated_at','Not saved yet') }}</p>
+      <div class="progress-shell">
+        <div id="progressFill" class="progress-fill"></div>
+      </div>
+      <div class="steps" id="stepDots">
+        <span class="step-dot active">1 Basic</span><span class="step-dot">2 Safety</span><span class="step-dot">3
+          Goals</span><span class="step-dot">4 Baseline</span><span class="step-dot">5 Schedule</span>
+      </div>
+    </section>
+    <form method="POST" action="{% if onboarding %}/questionnaire{% else %}/questionnaire{% endif %}"
+      id="assessmentForm">
+      <section class="panel form-step active">
+        <h2>Basic Profile</h2>
+        <div class="grid">
+          <div><label>Age Range</label><select name="age_range" required>{% for o in ['Below
+              18','18-30','31-45','46-60','60+'] %}<option value="{{o}}" {% if answer.get('age_range')==o %}selected{%
+                endif %}>{{o}}</option>{% endfor %}</select></div>
+          <div><label>Biological Sex</label><select name="biological_sex">{% for o in ['Prefer not to
+              say','Female','Male','Other'] %}<option value="{{o}}" {% if answer.get('biological_sex')==o %}selected{%
+                endif %}>{{o}}</option>{% endfor %}</select></div>
+          <div><label>Activity Level</label><select name="activity_level">{% for o in ['Low','Moderate','Active','Very
+              Active'] %}<option value="{{o}}" {% if answer.get('activity_level')==o %}selected{% endif %}>{{o}}
+              </option>{% endfor %}</select></div>
+          <div><label>Yoga Experience</label><select name="yoga_experience">{% for o in
+              ['Never','Occasionally','Regularly'] %}<option value="{{o}}" {% if answer.get('yoga_experience')==o
+                %}selected{% endif %}>{{o}}</option>{% endfor %}</select></div>
+          <div><label>Session Duration Preference</label><select name="session_duration_preference">{% for o in ['10
+              minutes','15 minutes','20 minutes','30 minutes'] %}<option value="{{o}}" {% if
+                answer.get('session_duration_preference')==o %}selected{% endif %}>{{o}}</option>{% endfor %}</select>
+          </div>
+          <div><label>Weekly Practice Frequency</label><select name="weekly_practice_frequency">{% for o in ['1-2
+              days','3-4 days','5+ days','Flexible'] %}<option value="{{o}}" {% if
+                answer.get('weekly_practice_frequency')==o %}selected{% endif %}>{{o}}</option>{% endfor %}</select>
+          </div>
+        </div>
+        <label style="margin-top:.8rem">Asanas you currently practice / feel comfortable with</label>
+        <div class="check-grid">{% for p in all_poses %}<label class="check"><input type="checkbox"
+              name="current_asanas" value="{{p}}" {% if p in selected_asanas %}checked{% endif %}> {{p.replace('_','
+            ').title()}}</label>{% endfor %}</div>
+      </section>
+
+      <section class="panel form-step">
+        <h2>Health & Safety</h2>
+        <label>Existing conditions</label>
+        <div class="check-grid">{% for c in ['Back pain','Joint pain','Recent injury','Blood pressure
+          issues','Cardiovascular condition','Respiratory condition','Neurological
+          condition','Pregnancy/Postpartum','None'] %}<label class="check"><input type="checkbox"
+              name="health_conditions" value="{{c}}" {% if c in selected_conditions %}checked{% endif %}>
+            {{c}}</label>{% endfor %}</div>
+        <div class="grid" style="margin-top:.85rem">
+          <div><label>Pain scale (0-10)</label><input type="number" min="0" max="10" name="pain_scale"
+              value="{{ answer.get('pain_scale',0) }}"></div>
+          <div><label>Was yoga recommended by a healthcare professional?</label><select name="healthcare_recommended">{%
+              for o in ['No','Yes'] %}<option value="{{o}}" {% if answer.get('healthcare_recommended')==o %}selected{%
+                endif %}>{{o}}</option>{% endfor %}</select></div>
+          <div><label>Medical recovery / surgery / condition management</label><select name="medical_recovery_type">{%
+              for o in ['No','Post-surgery rehabilitation','Pre-surgery conditioning','Chronic condition management'] %}
+              <option value="{{o}}" {% if answer.get('medical_recovery_type')==o %}selected{% endif %}>{{o}}</option>{%
+              endfor %}</select></div>
+          <div><label>Surgery or condition involved</label><input type="text" name="surgery_or_condition"
+              value="{{ answer.get('surgery_or_condition','') }}"
+              placeholder="ACL surgery, arthritis, lower back pain..."></div>
+        </div>
+        <label style="margin-top:.8rem">Contraindications and restrictions</label><textarea
+          name="restrictions">{{ answer.get('restrictions','') }}</textarea>
+        <label style="margin-top:.8rem">Doctor / physiotherapist restrictions</label><textarea
+          name="doctor_restrictions">{{ answer.get('doctor_restrictions','') }}</textarea>
+      </section>
+
+      <section class="panel form-step">
+        <h2>Goals & Feature Preferences</h2>
+        <p class="small-muted">Choose up to 3 goals.</p>
+        <div class="check-grid">{% for g in ['Stress relief','Flexibility','Strength','Weight management','Better
+          sleep','Posture correction','Pain management','Mental health support','Mindfulness','General
+          fitness','Spiritual practice','Community'] %}<label class="check"><input type="checkbox" name="goals"
+              value="{{g}}" {% if g in selected_goals %}checked{% endif %}> {{g}}</label>{% endfor %}</div>
+        <div class="grid" style="margin-top:.85rem">{% for f,label in [('voice_guidance','Voice
+          guidance'),('visual_demonstrations','Visual demonstrations'),('personalized_difficulty','Personalized
+          difficulty'),('progress_reports','Progress
+          reports'),('reminders','Reminders'),('community','Community'),('health_app_integration','Health app
+          integration')] %}<div><label for="slider_{{f}}">{{label}} importance</label>
+            <div class="slider-row"><input type="range" min="1" max="5" step="1" value="3" name="{{f}}"
+                id="slider_{{f}}" oninput="document.getElementById('val_{{f}}').textContent=this.value">
+              <span class="slider-value" id="val_{{f}}">3</span></div>
+          </div>{% endfor %}</div>
+        <label style="margin-top:.8rem">What do you most hope to experience through this app?</label><textarea
+          name="expectations">{{ answer.get('expectations','') }}</textarea>
+      </section>
+
+      <section class="panel form-step">
+        <h2>Baseline Wellness</h2>
+        <div class="grid">{% for key,label in [('baseline_stress','Stress
+          level'),('baseline_mood','Mood'),('baseline_sleep','Sleep quality'),('baseline_flexibility','Physical
+          flexibility'),('baseline_balance','Physical balance')] %}<div><label for="slider_{{key}}">{{label}}
+              (1-10)</label>
+            <div class="slider-row"><input type="range" min="1" max="10" step="1" value="{{ answer.get(key,5) }}"
+                name="{{key}}" id="slider_{{key}}"
+                oninput="document.getElementById('val_{{key}}').textContent=this.value">
+              <span class="slider-value" id="val_{{key}}">{{ answer.get(key,5) }}</span></div>
+          </div>{% endfor %}</div>
+      </section>
+
+      <section class="panel form-step">
+        <h2>Practice Timing & Weekly Availability</h2>
+        <div class="panel" style="background:rgba(74,222,128,.06);margin-bottom:1rem">
+          <h3>Choose Your Practice Style</h3>
+          <p class="small-muted">If yoga is doctor/physiotherapist recommended or part of surgery/condition recovery,
+            YogGyaan automatically uses Guided Recovery Mode and stores recovery details for future recommendations.
+          </p>
+          <div class="grid">
+            <div><label>Practice style for non-medical users</label><select name="practice_mode">
+                <option value="session" {% if answer.get('practice_mode','session')!='free' %}selected{% endif %}>
+                  Session Mode</option>
+                <option value="free" {% if answer.get('practice_mode')=='free' %}selected{% endif %}>Free Practice Mode
+                </option>
+              </select></div>
+            <div><label>Professional Guided Plan</label><input type="text"
+                value="Auto-enabled for treatment / rehabilitation / condition management" disabled></div>
+          </div>
+        </div>
+        <label>Preferred practice times</label>
+        <div class="check-grid">{% for t in ['Early Morning','Morning','Afternoon','Evening','Night','Flexible']
+          %}<label class="check"><input type="checkbox" name="preferred_times" value="{{t}}" {% if t in selected_times
+              %}checked{% endif %}> {{t}}</label>{% endfor %}</div>
+        <label style="margin-top:.8rem">Usually available days</label>
+        <div class="check-grid">{% for d in
+          ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday','Flexible / Any day'] %}<label
+            class="check"><input type="checkbox" name="available_days" value="{{d}}" {% if d in selected_days
+              %}checked{% endif %}> {{d}}</label>{% endfor %}</div>
+        <div class="grid" style="margin-top:.85rem">
+          <div><label>How many sessions per day were recommended?</label><select name="sessions_per_day">{% for o in
+              [1,2,3,4] %}<option value="{{o}}" {% if answer.get('sessions_per_day',1)==o %}selected{% endif %}>{{o}}
+              </option>{% endfor %}</select></div>
+          <div><label>Minimum gap between sessions</label><select name="cooldown_hours">{% for o in [1,2,3,4] %}<option
+                value="{{o}}" {% if answer.get('cooldown_hours',1)==o %}selected{% endif %}>{{o}} hours</option>{%
+              endfor %}</select></div>
+        </div>
+        <label class="check" style="margin-top:.8rem"><input type="checkbox" name="reminder_enabled" {% if
+            answer.get('reminder_enabled',1) %}checked{% endif %}> Enable cooldown/rest reminders</label>
+      </section>
+
+      <div class="actions">
+        <span class="warn" id="dirtyWarn">Unsaved changes</span>
+        <div>
+          <button type="button" class="btn btn-secondary" id="prevBtn">Previous</button>
+          <button type="button" class="btn btn-secondary" id="resetBtn">Reset section</button>
+          <button type="button" class="btn btn-primary" id="nextBtn">Next</button>
+          <button type="submit" class="btn btn-primary" id="saveBtn" style="display:none">Save changes</button>
+        </div>
+      </div>
+    </form>
+
+    {% if history %}
+    <section class="panel">
+      <h2>Previous health updates</h2>
+      {% for h in history %}
+      <div class="history-item">Saved on {{ h.created_at }}</div>
+      {% endfor %}
+    </section>
+    {% endif %}
+  </main>
+  <script>
+    const steps = [...document.querySelectorAll('.form-step')], dots = [...document.querySelectorAll('.step-dot')];
+    let current = 0, dirty = false;
+    function showStep(i) { current = Math.max(0, Math.min(i, steps.length - 1)); steps.forEach((s, idx) => s.classList.toggle('active', idx === current)); dots.forEach((d, idx) => d.classList.toggle('active', idx === current)); document.getElementById('progressFill').style.width = ((current + 1) / steps.length * 100) + '%'; document.getElementById('prevBtn').style.display = current === 0 ? 'none' : 'inline-flex'; document.getElementById('nextBtn').style.display = current === steps.length - 1 ? 'none' : 'inline-flex'; document.getElementById('saveBtn').style.display = current === steps.length - 1 ? 'inline-flex' : 'none'; }
+    document.getElementById('nextBtn').onclick = () => showStep(current + 1); document.getElementById('prevBtn').onclick = () => showStep(current - 1);
+    document.getElementById('resetBtn').onclick = () => { steps[current].querySelectorAll('input,textarea,select').forEach(el => { if (el.type === 'checkbox') el.checked = false; else el.value = ''; }); dirty = true; document.getElementById('dirtyWarn').style.display = 'inline'; };
+    document.getElementById('assessmentForm').addEventListener('input', () => { dirty = true; document.getElementById('dirtyWarn').style.display = 'inline'; });
+    window.addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+    document.getElementById('assessmentForm').addEventListener('submit', () => dirty = false);
+    showStep(0);
+  </script>
+</body>
+
+</html>

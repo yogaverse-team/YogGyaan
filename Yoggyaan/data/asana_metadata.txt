@@ -1,0 +1,125 @@
+Route: /game/tadasana | World: Cloud Peak
+difficulty:         beginner
+goals:              balance, posture, stress_relief, mindfulness
+body_regions:       spine, core, legs, ankles
+conditions_helped:  poor_posture, poor_balance, stress, anxiety
+contraindications:  (none)
+surgery_safety:     pre_surgery, post_surgery, condition_management
+risk_level:         low
+
+Route: /game/bhujangasana | World: Lost Jungle Temple
+difficulty:         intermediate
+goals:              posture, strength, pain_management, flexibility
+body_regions:       spine, back, shoulders, core
+conditions_helped:  lower_back_pain, poor_posture, respiratory_health
+contraindications:  pregnancy, recent_surgery, spine_injury
+surgery_safety:     pre_surgery, condition_management
+risk_level:         moderate
+
+Route: /game/setu_bandhasana | World: United Kingdoms
+difficulty:         beginner
+goals:              strength, flexibility, pain_management, stress_relief
+body_regions:       back, spine, hips, core, legs
+conditions_helped:  lower_back_pain, stress, stiff_hips
+contraindications:  neck_injury, spine_injury
+surgery_safety:     pre_surgery, condition_management
+risk_level:         low
+
+Route: /game/padahastasana | World: Sacred Autumn Valley
+difficulty:         intermediate
+goals:              flexibility, posture
+body_regions:       back, spine, legs, hips
+conditions_helped:  poor_posture, lower_back_pain
+contraindications:  spine_injury, vertigo, recent_surgery
+surgery_safety:     condition_management
+risk_level:         moderate
+
+Route: /game/paschimottanasana | World: Forgotten Puppet Kingdom
+difficulty:         intermediate
+goals:              flexibility, stress_relief, mindfulness, sleep
+body_regions:       back, spine, hips, legs
+conditions_helped:  stress, anxiety, lower_back_pain
+contraindications:  spine_injury, recent_surgery
+surgery_safety:     condition_management
+risk_level:         moderate
+
+Route: /game/wall_plank_chaturanga | World: Sacred Samurai Dojo
+difficulty:         intermediate
+goals:              strength, posture
+body_regions:       core, shoulders, back, legs
+conditions_helped:  poor_posture
+contraindications:  wrist_injury, shoulder_injury, recent_surgery
+surgery_safety:     condition_management
+risk_level:         moderate
+
+Route: /game/paschim_namaskarasana | World: Royal Peacock Garden
+difficulty:         intermediate
+goals:              flexibility, posture
+body_regions:       shoulders, neck, back, spine
+conditions_helped:  poor_posture, neck_pain
+contraindications:  shoulder_injury, wrist_injury
+surgery_safety:     condition_management
+risk_level:         moderate
+
+Route: /game/pranayama | World: Inner Prana Nexus
+difficulty:         beginner
+goals:              stress_relief, mindfulness, sleep, pain_management
+body_regions:       (breath-based — no specific body region load)
+conditions_helped:  stress, anxiety, mild_hypertension, respiratory_health
+contraindications:  (none — universally safe when done gently)
+surgery_safety:     pre_surgery, post_surgery, condition_management
+risk_level:         low
+
+Route: /game/tree | World: Sacred Forest
+difficulty:         beginner
+goals:              balance, posture, mindfulness, stress_relief
+body_regions:       legs, ankles, core, spine
+conditions_helped:  poor_balance, poor_posture, stress
+contraindications:  vertigo, recent_surgery
+surgery_safety:     pre_surgery, condition_management
+risk_level:         low
+
+Route: /game/warrior | World: Guardian Village
+difficulty:         intermediate
+goals:              strength, balance, posture, flexibility
+body_regions:       legs, hips, core, shoulders, back
+conditions_helped:  poor_posture, poor_balance, stiff_hips
+contraindications:  knee_injury, recent_surgery
+surgery_safety:     condition_management
+risk_level:         moderate
+
+Route: /game/padmasana | World: Lotus Lake
+difficulty:         advanced
+goals:              mindfulness, stress_relief, flexibility, sleep
+body_regions:       hips, knees, ankles, spine
+conditions_helped:  stress, anxiety, stiff_hips
+contraindications:  knee_injury, ankle_injury, recent_surgery
+surgery_safety:     condition_management
+risk_level:         high
+
+Route: /game/vajrasana | World: Rain Temple
+difficulty:         beginner
+goals:              mindfulness, posture, stress_relief, pain_management
+body_regions:       knees, ankles, spine, hips
+conditions_helped:  poor_posture, stress, anxiety
+contraindications:  knee_injury, ankle_injury
+surgery_safety:     pre_surgery, post_surgery, condition_management
+risk_level:         low
+
+Route: /game/baddha_konasana | World: Butterfly Garden
+difficulty:         beginner
+goals:              flexibility, stress_relief, pain_management, mindfulness
+body_regions:       hips, knees, ankles, back
+conditions_helped:  stiff_hips, lower_back_pain, stress, anxiety
+contraindications:  knee_injury, recent_surgery
+surgery_safety:     pre_surgery, condition_management
+risk_level:         low
+
+Route: /game/trikonasana | World: Prism Valley
+difficulty:         intermediate
+goals:              balance, flexibility, strength, posture
+body_regions:       legs, hips, spine, core, shoulders
+conditions_helped:  poor_posture, poor_balance, stiff_hips, lower_back_pain
+contraindications:  knee_injury, spine_injury, vertigo, recent_surgery
+surgery_safety:     condition_management
+risk_level:         moderate

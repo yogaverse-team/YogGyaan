@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wellness Analytics - YogGyaan</title>
+  <link rel="stylesheet" href="/static/css/style.css?v=2" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    html,
+    body {
+      overflow-x: hidden
+    }
+
+    .analytics-wrap {
+      margin-left: 74px;
+      padding: 78px 1.25rem 3rem;
+      min-height: 100vh;
+      max-width: calc(100vw - 74px);
+      box-sizing: border-box;
+      overflow-x: hidden
+    }
+
+    .navbar:hover~.analytics-wrap {
+      margin-left: 74px;
+      max-width: calc(100vw - 74px)
+    }
+
+    .analytics-content {
+      max-width: 100%;
+      margin: 0 auto;
+      overflow-x: hidden
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(74, 222, 128, .15), rgba(96, 165, 250, .10), rgba(244, 114, 182, .08));
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      padding: 1.6rem;
+      margin-bottom: 1rem
+    }
+
+    .hero h1 {
+      font-size: clamp(1.8rem, 3vw, 3.1rem);
+      margin: .2rem 0
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem
+    }
+
+    .metric-grid {
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr))
+    }
+
+    .two {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))
+    }
+
+    .three {
+      grid-template-columns: repeat(3, minmax(0, 1fr))
+    }
+
+    .cardx {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+      box-shadow: 0 18px 44px rgba(0, 0, 0, .18)
+    }
+
+    .metric-card {
+      position: relative;
+      overflow: hidden
+    }
+
+    .metric-card:before {
+      content: "";
+      position: absolute;
+      inset: -40% -30% auto auto;
+      width: 130px;
+      height: 130px;
+      background: radial-gradient(circle, rgba(74, 222, 128, .18), transparent 70%);
+      border-radius: 50%
+    }
+
+    .metric-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .5rem
+    }
+
+    .metric-icon {
+      font-size: 1.45rem
+    }
+
+    .score-pair {
+      font-size: 1.45rem;
+      font-weight: 900;
+      margin: .55rem 0
+    }
+
+    .trend.good {
+      color: #4ade80
+    }
+
+    .trend.bad {
+      color: #f87171
+    }
+
+    .mini-chart {
+      width: 100%;
+      height: 105px;
+      margin-top: .65rem
+    }
+
+    .section-title {
+      margin: 1.25rem 0 .7rem;
+      font-size: 1.1rem
+    }
+
+    .ring {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin: auto;
+      background: conic-gradient(#4ade80 calc(var(--p)*1%), rgba(255, 255, 255, .08) 0);
+      position: relative
+    }
+
+    .ring:after {
+      content: "";
+      position: absolute;
+      width: 118px;
+      height: 118px;
+      border-radius: 50%;
+      background: var(--bg, #071018);
+      border: 1px solid var(--border)
+    }
+
+    .ring span {
+      position: relative;
+      z-index: 1;
+      font-size: 2rem;
+      font-weight: 900
+    }
+
+    .stat-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: .75rem
+    }
+
+    .stat-mini {
+      background: rgba(255, 255, 255, .045);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: .85rem
+    }
+
+    .stat-mini b {
+      display: block;
+      font-size: 1.25rem
+    }
+
+    .chart {
+      width: 100%;
+      height: 260px
+    }
+
+    .bar-chart {
+      height: 300px
+    }
+
+    .asana-table {
+      display: grid;
+      gap: .7rem
+    }
+
+    .asana-row {
+      display: grid;
+      grid-template-columns: minmax(120px, 1.2fr) repeat(6, minmax(62px, .65fr));
+      gap: .45rem;
+      align-items: center;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: .7rem;
+      font-size: .76rem;
+      min-width: 0
+    }
+
+    .asana-row>* {
+      min-width: 0;
+      overflow-wrap: anywhere
+    }
+
+    .timeline {
+      position: relative;
+      display: grid;
+      gap: .8rem
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: .8rem
+    }
+
+    .time-dot {
+      border-radius: 14px;
+      background: rgba(74, 222, 128, .12);
+      border: 1px solid rgba(74, 222, 128, .3);
+      padding: .7rem;
+      text-align: center;
+      font-weight: 800
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      margin: .15rem .25rem .15rem 0;
+      padding: .25rem .55rem;
+      border-radius: 999px;
+      background: rgba(250, 204, 21, .12);
+      border: 1px solid rgba(250, 204, 21, .28);
+      font-size: .72rem
+    }
+
+    .muted {
+      color: var(--text-muted);
+      font-size: .82rem
+    }
+
+    .tabs {
+      display: flex;
+      gap: .6rem;
+      flex-wrap: wrap;
+      margin-top: 1rem
+    }
+
+    .tabs a {
+      padding: .55rem .8rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: inherit;
+      background: rgba(255, 255, 255, .04)
+    }
+
+    .show-more-block {
+      margin-top: .35rem;
+      border-top: 1px solid var(--border);
+      padding-top: .65rem
+    }
+
+    .show-more-block summary {
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      border: 1px solid rgba(74, 222, 128, .28);
+      background: rgba(74, 222, 128, .08);
+      border-radius: 999px;
+      padding: .45rem .75rem;
+      font-weight: 800;
+      color: #dfffee
+    }
+
+    .show-more-content {
+      display: grid;
+      gap: .8rem;
+      margin-top: .8rem
+    }
+
+    .achievement-timeline .timeline-item {
+      align-items: start
+    }
+
+    @media(max-width:1100px) {
+
+      .metric-grid,
+      .three,
+      .two {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .stat-list {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .asana-row {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    @media(max-width:700px) {
+      .analytics-wrap {
+        margin-left: 0;
+        max-width: 100vw;
+        padding: 90px .8rem
+      }
+
+      .metric-grid,
+      .three,
+      .two,
+      .stat-list {
+        grid-template-columns: 1fr
+      }
+
+      .asana-row {
+        grid-template-columns: 1fr
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr
+      }
+    }
+  </style>
+  <!-- PWA -->
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="theme-color" content="#1a473f">
+  <link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+  <script src="/static/js/pwa.js" defer></script>
+  <script src="/static/js/topbar-dropdown.js" defer></script>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="navbar-brand"><i class="bi bi-flower2"></i><span class="nav-label">YogGyaan</span></div>
+      <ul class="navbar-nav">
+        <li><a href="/dashboard"><i class="bi bi-house-door"></i><span class="nav-label">Dashboard</span></a></li>
+        <li><a href="/yoga-library"><i class="bi bi-person-arms-up"></i><span class="nav-label">Yoga Library</span></a></li>
+        <li><a href="/world-map"><i class="bi bi-map"></i><span class="nav-label">World Map</span></a></li>
+        <li><a href="/leaderboard"><i class="bi bi-trophy"></i><span class="nav-label">Leaderboard</span></a></li>
+        <li><a href="/health-assessment"><i class="bi bi-heart-pulse"></i><span class="nav-label">Health Assessment</span></a></li>
+        <li><a href="/wellness-reassessment"><i class="bi bi-arrow-repeat"></i><span class="nav-label">Wellness Reassessment</span></a>
+        </li>
+        <li><a href="/wellness-analytics"><i class="bi bi-graph-up-arrow"></i><span class="nav-label">Wellness Analytics</span></a></li>
+        <li><a href="/feedback"><i class="bi bi-chat-square-text"></i><span class="nav-label">Feedback</span></a></li>
+        <li><a href="/session-history"><i class="bi bi-clock-history"></i><span class="nav-label">Session History</span></a></li>
+        <li><a href="/profile" class="nav-icon-profile"><i class="bi bi-person-circle"></i><span class="nav-label">Profile</span></a></li>
+      </ul>
+    </div>
+  </nav>
+  <header class="app-topbar">
+    <div class="app-topbar-title">Wellness Analytics</div>
+      <div class="profile-menu">
+      <div class="topbar-dropdown">
+        <button type="button" class="icon-btn" data-dropdown-trigger aria-haspopup="true" aria-expanded="false" title="Notifications" aria-label="Notifications">
+          <i class="bi bi-bell"></i>
+          <span class="notif-badge">5</span>
+        </button>
+        <div class="dropdown-panel">
+          <div class="dropdown-panel-title">Notifications</div>
+          <div class="notif-list">
+            <div class="notif-item"><i class="bi bi-stars"></i><div><strong>Daily Challenge Available</strong><small>A new challenge is ready for you today</small></div></div>
+            <div class="notif-item"><i class="bi bi-alarm"></i><div><strong>Session Reminder</strong><small>Your scheduled practice window is open</small></div></div>
+            <div class="notif-item"><i class="bi bi-trophy"></i><div><strong>Achievement Unlocked</strong><small>You've earned a new badge</small></div></div>
+            <div class="notif-item"><i class="bi bi-exclamation-triangle"></i><div><strong>Streak Warning</strong><small>Practice today to keep your streak alive</small></div></div>
+            <div class="notif-item"><i class="bi bi-heart-pulse"></i><div><strong>Wellness Recommendation</strong><small>New guidance based on your latest check-in</small></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="topbar-dropdown">
+        <button type="button" class="icon-btn profile-trigger" data-dropdown-trigger aria-haspopup="true" aria-expanded="false" title="Account" aria-label="Account menu">
+          <i class="bi bi-person-circle"></i>
+          <i class="bi bi-chevron-down caret-icon"></i>
+        </button>
+        <div class="dropdown-panel">
+          <a href="/profile" class="dropdown-item"><i class="bi bi-person"></i>Profile</a>
+          <form action="/logout" method="POST" class="dropdown-form">
+            <button type="submit" class="dropdown-item dropdown-item-danger"><i class="bi bi-box-arrow-right"></i>Logout</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="analytics-wrap">
+    <main class="analytics-content">
+      <section class="hero">
+        <div class="muted">Profile-> Wellness Analytics</div>
+        <h1>Your Wellness Journey</h1>
+        <p class="muted">Stress, mood, sleep, flexibility, balance, session consistency, pose accuracy and achievements
+          are tracked over unlimited assessments. New reassessments append to history and graphs update automatically.
+        </p>
+        <div class="tabs"><a href="/wellness-reassessment">Add New Assessment</a><a href="/profile">Back to Profile</a>
+        </div>
+      </section>
+
+      <section class="grid metric-grid">
+        {% for c in analytics.cards %}
+        <div class="cardx metric-card">
+          <div class="metric-top"><strong>{{ c.icon }} {{ c.label }}</strong><span class="muted">Current {{ c.current
+              }}/10</span></div>
+          <div class="score-pair">{{ c.before }}-> {{ c.current }}</div>
+          <div class="trend {% if c.improved %}good{% else %}bad{% endif %}">{% if c.direction == 'down' %}↓{% elif
+            c.improved %}📈{% else %}📉{% endif %} {{ c.pct }}% {{ c.word }}</div>
+          <canvas class="mini-chart" data-metric="{{ c.key }}"></canvas>
+        </div>
+        {% endfor %}
+      </section>
+
+      <h2 class="section-title">Your Transformation</h2>
+      <section class="grid two">
+        <div class="cardx">
+          <h3>Before vs Latest Assessment</h3><canvas id="transformChart" class="chart bar-chart"></canvas>
+        </div>
+        <div class="cardx">
+          <h3>Overall Wellness Score</h3>
+          <div class="ring" style="--p:{{ analytics.wellness_score }}"><span>{{ analytics.wellness_score|round(0)|int
+              }}</span></div>
+          <p class="muted" style="text-align:center;margin-top:.8rem">Score uses stress recovery, mood, sleep,
+            flexibility, balance and session consistency.</p>
+        </div>
+      </section>
+
+      <h2 class="section-title">Session Analytics</h2>
+      <section class="cardx">
+        <div class="stat-list">
+          <div class="stat-mini"><b>{{ analytics.session.total_sessions }}</b><span class="muted">Total Sessions
+              Completed</span></div>
+          <div class="stat-mini"><b>{{ analytics.session.total_minutes }}m</b><span class="muted">Total Minutes
+              Practiced</span></div>
+          <div class="stat-mini"><b>{{ analytics.session.longest_streak }}</b><span class="muted">Longest Streak</span>
+          </div>
+          <div class="stat-mini"><b>{{ analytics.session.current_streak }}</b><span class="muted">Current Streak</span>
+          </div>
+          <div class="stat-mini"><b>{{ analytics.session.favorite_asana }}</b><span class="muted">Favorite Asana</span>
+          </div>
+          <div class="stat-mini"><b>{{ analytics.session.most_practiced_category }}</b><span class="muted">Most
+              Practiced Category</span></div>
+          <div class="stat-mini"><b>{{ analytics.session.sessions_week }}</b><span class="muted">Sessions This
+              Week</span></div>
+          <div class="stat-mini"><b>{{ analytics.session.sessions_month }}</b><span class="muted">Sessions This
+              Month</span></div>
+        </div>
+      </section>
+
+      <h2 class="section-title">Yoga Accuracy Analytics</h2>
+      <section class="grid two">
+        <div class="cardx">
+          <div class="stat-list" style="grid-template-columns:1fr 1fr">
+            <div class="stat-mini"><b>{{ analytics.accuracy.average }}%</b><span class="muted">Average Pose
+                Accuracy</span></div>
+            <div class="stat-mini"><b>{{ analytics.accuracy.best_accuracy }}%</b><span class="muted">Best Accuracy · {{
+                analytics.accuracy.best_pose }}</span></div>
+            <div class="stat-mini"><b>{{ analytics.accuracy.most_improved }}</b><span class="muted">Most Improved (+{{
+                analytics.accuracy.most_improved_delta }}%)</span></div>
+            <div class="stat-mini"><b>{{ analytics.accuracy.completion_rate }}%</b><span class="muted">Pose Completion
+                Rate</span></div>
+          </div>
+        </div>
+        <div class="cardx">
+          <h3>Accuracy Trend</h3><canvas id="accuracyChart" class="chart"></canvas>
+        </div>
+      </section>
+
+      <h2 class="section-title">Asana Progress Page</h2>
+      <section class="cardx asana-table">
+        <div class="asana-row" style="font-weight:800;background:rgba(74,222,128,.08)">
+          <span>Asana</span><span>Practiced</span><span>Avg Accuracy</span><span>Longest Hold</span><span>Best
+            Session</span><span>Level</span><span>XP</span></div>
+        {% for a in analytics.asanas %}
+        <div class="asana-row"><span><b>{{ a.name }}</b><br><canvas class="mini-chart" data-pose="{{ a.pose }}"
+              style="height:60px"></canvas></span><span>{{ a.times }}</span><span>{{ a.avg_accuracy }}%</span><span>{{
+            a.longest_hold }}s</span><span>{{ a.best_session }}%</span><span>{{ a.level }}</span><span>{{ a.xp }}</span>
+        </div>
+        {% else %}<p class="muted">No pose sessions yet. Practice an asana to fill this section.</p>{% endfor %}
+      </section>
+
+      <h2 class="section-title">Achievement Timeline</h2>
+      <section class="cardx timeline achievement-timeline">
+        {% if analytics.badges %}
+        {% for b in analytics.badges[:3] %}
+        <div class="timeline-item">
+          <div class="time-dot">{{ b.earned_at[:10] }}</div>
+          <div><b>{{ b.badge_name }}</b>
+            <p class="muted">{{ b.badge_description }}</p>
+          </div>
+        </div>
+        {% endfor %}
+        {% if analytics.badges|length > 3 %}
+        <details class="show-more-block">
+          <summary>Show {{ analytics.badges|length - 3 }} more achievements</summary>
+          <div class="show-more-content">
+            {% for b in analytics.badges[3:] %}
+            <div class="timeline-item">
+              <div class="time-dot">{{ b.earned_at[:10] }}</div>
+              <div><b>{{ b.badge_name }}</b>
+                <p class="muted">{{ b.badge_description }}</p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </details>
+        {% endif %}
+        {% else %}
+        <p class="muted">Achievements unlock automatically: First Session, 7-Day Streak, 100 Minutes, 90% Accuracy
+          Master, Completed All Worlds and Pranayama Master.</p>
+        {% endif %}
+      </section>
+
+      <h2 class="section-title">Wellness Timeline</h2>
+      <section class="cardx timeline">
+        {% for item in analytics.wellness_timeline %}<div class="timeline-item">
+          <div class="time-dot">{{ item.label }}<br><span class="muted">{{ item.date }}</span></div>
+          <div><b>Assessment Score</b>
+            <p class="muted">Stress {{ item.assessment.stress }}/10 · Mood {{ item.assessment.mood }}/10 · Sleep {{
+              item.assessment.sleep }}/10 · Flexibility {{ item.assessment.flexibility }}/10 · Balance {{
+              item.assessment.balance }}/10</p>
+            <p class="muted">Sessions completed till then: {{ item.sessions_completed }}</p>{% for im in
+            item.improvements %}<span class="badge-pill">{{ im }}</span>{% endfor %}{% for ach in item.achievements
+            %}<span class="badge-pill">🏆 {{ ach.badge_name }}</span>{% endfor %}
+          </div>
+        </div>{% else %}<p class="muted">Complete the initial wellness assessment to begin the timeline.</p>{% endfor %}
+      </section>
+    </main>
+  </div>
+  <script>
+    const analytics = {{ analytics| tojson }};
+    function drawLine(canvas, points, key, opts = {}) { const ctx = canvas.getContext('2d'), w = canvas.width = canvas.clientWidth * devicePixelRatio, h = canvas.height = canvas.clientHeight * devicePixelRatio, p = 22 * devicePixelRatio; ctx.clearRect(0, 0, w, h); ctx.lineWidth = 1 * devicePixelRatio; ctx.strokeStyle = 'rgba(255,255,255,.15)'; ctx.beginPath(); ctx.moveTo(p, p); ctx.lineTo(p, h - p); ctx.lineTo(w - p, h - p); ctx.stroke(); if (!points.length) return; const vals = points.map(x => Number(x[key] || 0)); const max = opts.max || 100, min = opts.min || 0; function X(i) { return p + (w - 2 * p) * (points.length === 1 ? .5 : i / (points.length - 1)) } function Y(v) { return h - p - ((v - min) / (max - min)) * (h - 2 * p) } ctx.strokeStyle = 'rgba(74,222,128,.95)'; ctx.lineWidth = 2.5 * devicePixelRatio; ctx.beginPath(); vals.forEach((v, i) => { const x = X(i), y = Y(v); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y) }); ctx.stroke(); vals.forEach((v, i) => { ctx.fillStyle = 'rgba(96,165,250,.95)'; ctx.beginPath(); ctx.arc(X(i), Y(v), 4 * devicePixelRatio, 0, Math.PI * 2); ctx.fill() }); canvas.title = points.map((pt, i) => `${pt.date}: ${key} ${pt[key]}${i ? `, change ${Number(pt[key] || 0) - Number(points[i - 1][key] || 0)}` : ''}`).join('\n') }
+    function drawBars(canvas) { const ctx = canvas.getContext('2d'), w = canvas.width = canvas.clientWidth * devicePixelRatio, h = canvas.height = canvas.clientHeight * devicePixelRatio, p = 36 * devicePixelRatio; ctx.clearRect(0, 0, w, h); const keys = analytics.metrics, bw = (w - 2 * p) / (keys.length * 2.6); ctx.strokeStyle = 'rgba(255,255,255,.16)'; ctx.beginPath(); ctx.moveTo(p, p); ctx.lineTo(p, h - p); ctx.lineTo(w - p, h - p); ctx.stroke(); keys.forEach((k, i) => { const x = p + i * ((w - 2 * p) / keys.length) + bw * .7; const b = Number(analytics.before[k] || 0), l = Number(analytics.latest[k] || 0); const yb = h - p - (b / 10) * (h - 2 * p), yl = h - p - (l / 10) * (h - 2 * p); ctx.fillStyle = 'rgba(96,165,250,.75)'; ctx.fillRect(x, yb, bw, h - p - yb); ctx.fillStyle = 'rgba(74,222,128,.85)'; ctx.fillRect(x + bw * 1.15, yl, bw, h - p - yl); ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.font = `${11 * devicePixelRatio}px sans-serif`; ctx.save(); ctx.translate(x, h - 8 * devicePixelRatio); ctx.rotate(-.45); ctx.fillText(k, 0, 0); ctx.restore(); }); canvas.title = 'Blue = Before, Green = Latest' }
+    document.querySelectorAll('[data-metric]').forEach(c => drawLine(c, analytics.timeline, c.dataset.metric, { max: 10, min: 0 }));
+    document.querySelectorAll('[data-pose]').forEach(c => { const a = analytics.asanas.find(x => x.pose === c.dataset.pose); drawLine(c, a ? a.history : [], 'accuracy', { max: 100, min: 0 }) });
+    drawBars(document.getElementById('transformChart'));
+    drawLine(document.getElementById('accuracyChart'), analytics.accuracy.trend, 'accuracy', { max: 100, min: 0 });
+  </script>
+</body>
+
+</html>
