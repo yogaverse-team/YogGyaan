@@ -4,6 +4,11 @@ YogGyaan is a gamified yoga practice app that uses real-time pose detection and 
 
 ---
 
+## Live Demo :
+https://yoggyaan.onrender.com
+
+---
+
 ## Features
 
 - Real-time pose detection and scoring across 14 yoga asanas, using MediaPipe
