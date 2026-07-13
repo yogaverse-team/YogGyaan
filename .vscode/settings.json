@@ -1,5 +1,4 @@
 {
-  "// note": "These templates use Jinja2 ({{ ... }} / {% ... %}). VS Code's built-in CSS/JS validators don't understand Jinja and misreport syntax errors inside style=\"\" attributes and <script> blocks that contain Jinja expressions. These are false positives only — Flask renders valid CSS/JS before the browser ever sees the page. The settings below disable just those specific checks for this workspace.",
   "css.validate": false,
   "less.validate": false,
   "scss.validate": false,
