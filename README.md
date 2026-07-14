@@ -19,7 +19,7 @@ https://yoggyaan.onrender.com
 - Session history, wellness analytics, and progress tracking
 - Support for pre-recorded video analysis
 - Leaderboard, achievements, and badges
-- Installable PWA with offline support
+- Installable PWA from the browser 
 
 ---
 
