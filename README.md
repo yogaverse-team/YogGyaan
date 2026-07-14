@@ -84,8 +84,7 @@ Run the app:
 ```bash
 python app.py
 ```
-
-The app will be available at `http://localhost:5000`.
+The app will be available at `http://localhost:5000` (or `http://127.0.0.1:5000`).
 
 ---
 
