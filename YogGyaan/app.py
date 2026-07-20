@@ -1821,26 +1821,35 @@ def get_or_create_daily_challenge(db):
     return dict(db.execute("SELECT * FROM daily_challenges WHERE challenge_date=?", (today,)).fetchone())
 
 
-def get_daily_challenges_board():
-    poses = [
-        ("tadasana", "Mountain Pose", "Complete steady alignment reps with calm breathing."),
-        ("tree", "Tree Pose", "Balance without wobbling and hold the final posture."),
-        ("warrior", "Warrior Pose", "Build strength with clean front-knee alignment."),
-        ("baddha_konasana", "Butterfly Pose", "Open hips gently and hold with a tall spine."),
-        ("padmasana", "Lotus Pose", "Sit steady, relax shoulders, and breathe slowly."),
-        ("vajrasana", "Thunderbolt Pose", "Hold upright posture with relaxed breathing."),
-        ("trikonasana", "Triangle Pose", "Reach sideways with wide legs and open chest."),
-        ("balasana", "Balasana (Child Pose)", "Kneel, fold forward, and stretch your arms out."),
-        ("bhujangasana", "Cobra Pose", "Lift chest smoothly while keeping legs grounded."),
-        ("wall_plank_chaturanga", "Wall Plank Chaturanga", "Step into wall plank and hold strong form."),
-        ("padahastasana", "Hand-to-Foot Pose", "Fold forward with controlled breathing."),
-        ("paschimottanasana", "Seated Forward Bend", "Lengthen spine, fold forward, and hold."),
-        ("paschim_namaskarasana", "Reverse Prayer Pose", "Join palms behind back and lift chest."),
-        ("pranayama", "Pranayama", "Complete a slow inhale-exhale breathing round."),
-    ]
-    idx = date.today().toordinal() % len(poses)
-    pose, name, desc = poses[idx]
-    return [{"index": idx+1, "pose": pose, "name": name, "description": desc, "target_accuracy": 75, "xp_reward": 100}]
+POSE_DISPLAY_NAMES = {
+    "tadasana": "Mountain Pose",
+    "tree": "Tree Pose",
+    "warrior": "Warrior Pose",
+    "baddha_konasana": "Butterfly Pose",
+    "padmasana": "Lotus Pose",
+    "vajrasana": "Thunderbolt Pose",
+    "trikonasana": "Triangle Pose",
+    "balasana": "Balasana (Child Pose)",
+    "bhujangasana": "Cobra Pose",
+    "wall_plank_chaturanga": "Wall Plank Chaturanga",
+    "padahastasana": "Hand-to-Foot Pose",
+    "paschimottanasana": "Seated Forward Bend",
+    "paschim_namaskarasana": "Reverse Prayer Pose",
+    "pranayama": "Pranayama",
+}
+
+def get_daily_challenges_board(db):
+    challenge = get_or_create_daily_challenge(db)
+    pose = challenge["pose_name"]
+    name = POSE_DISPLAY_NAMES.get(pose, pose.replace("_", " ").title())
+    return [{
+        "index": 1,
+        "pose": pose,
+        "name": name,
+        "description": challenge["description"],
+        "target_accuracy": challenge["target_accuracy"],
+        "xp_reward": challenge["xp_reward"],
+    }]
 
 
 SESSION_LEVELS = {
@@ -2125,7 +2134,7 @@ def dashboard():
             "SELECT * FROM achievements WHERE user_id=? ORDER BY earned_at DESC LIMIT 6",
             (uid,)).fetchall()],
         challenge=get_or_create_daily_challenge(db),
-        daily_challenges=get_daily_challenges_board(),
+        daily_challenges=get_daily_challenges_board(db),
         forest=forest, village=village, lotus=lotus,
         temple=temple, butterfly=butterfly, cloud_peak=cloud_peak,
         prism_valley=prism_valley, kingdoms=kingdoms, jungle_temple=jungle_temple, samurai_dojo=samurai_dojo, autumn_valley=autumn_valley, puppet_kingdom=puppet_kingdom, peacock_garden=peacock_garden, prana_nexus=prana_nexus,
@@ -2578,7 +2587,7 @@ def api_pose_check():
     if pose_name not in ALL_POSES:
         return jsonify({"error": "invalid pose"}), 400
     try:
-        from Yoggyaan.pose_detection.pose_checker import PoseChecker
+        from YogGyaan.pose_detection.pose_checker import PoseChecker
         result = PoseChecker().validate(pose_name, landmarks)
     except Exception as e:
         result = {"score": 0, "passed": False, "stable": False,
